@@ -35,7 +35,7 @@ namespace Xamarin.Payments.Stripe {
         public static long ToUnixEpoch (this DateTime dt)
         {
             dt = dt.ToUniversalTime ();
-            return Convert.ToInt32 ((dt - epoch).TotalSeconds);
+            return Convert.ToInt64 ((dt - epoch).TotalSeconds);
         }
     }
 }
