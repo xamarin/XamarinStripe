@@ -84,7 +84,9 @@ namespace Xamarin.Payments.Stripe {
                     HttpWebResponse resp = wexc.Response as HttpWebResponse;
                     if (resp != null)
                         status_code = resp.StatusCode;
-                    throw StripeException.GetFromJSON (status_code, json_error);
+
+                    if ((int)status_code <= 500)
+                        throw StripeException.GetFromJSON (status_code, json_error);
                 }
                 throw;
             }
