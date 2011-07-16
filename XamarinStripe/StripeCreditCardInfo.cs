@@ -48,13 +48,13 @@ namespace Xamarin.Payments.Stripe {
             if (is_number && ExpirationYear <= 0)
                 throw new ArgumentOutOfRangeException ("ExpirationYear");
 
-            if (is_number) {
-                sb.AppendFormat ("card[number]={0}&card[exp_month]={1}&card[exp_year]={2}&",
-                            HttpUtility.UrlEncode (Number), ExpirationMonth, ExpirationYear);
-            } else {
+            if (!is_number) {
                 // One-time token
                 sb.AppendFormat ("card={0}&", HttpUtility.UrlEncode (Number));
+                return;
             }
+            sb.AppendFormat ("card[number]={0}&card[exp_month]={1}&card[exp_year]={2}&",
+                            HttpUtility.UrlEncode (Number), ExpirationMonth, ExpirationYear);
             if (!String.IsNullOrEmpty (CVC))
                 sb.AppendFormat ("card[cvc]={0}&", HttpUtility.UrlEncode (CVC));
             if (!String.IsNullOrEmpty (FullName))
