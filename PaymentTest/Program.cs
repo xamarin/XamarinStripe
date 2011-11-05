@@ -34,6 +34,7 @@ namespace PaymentTest {
             //TestCreateGetToken (payment);
             //TestCreatePlanGetPlan (payment);
             TestCreateSubscription (payment);
+            TestCreateInvoiceItems (payment);
         }
 
         static StripeCreditCardInfo GetCC ()
@@ -48,13 +49,20 @@ namespace PaymentTest {
 
         static StripePlanInfo GetPlanInfo ()
         {
-            return new StripePlanInfo
-            {
+            return new StripePlanInfo {
                 Amount = 1999,
                 ID = "myplan",
                 Interval = StripeInterval.Month,
                 Name = "My standard plan",
                 TrialPeriod = 7
+            };
+        }
+
+        static StripeInvoiceItemInfo GetInvoiceItemInfo ()
+        {
+            return new StripeInvoiceItemInfo {
+                Amount = 1999,
+                Description = "Invoice item: " + Guid.NewGuid ().ToString ()
             };
         }
 
@@ -165,6 +173,27 @@ namespace PaymentTest {
         {
             StripeSubscription sub = payment.Unsubscribe (customer.ID, true);
             return sub;
+        }
+
+        static void TestCreateInvoiceItems (StripePayment payment)
+        {
+            StripeCustomer cust = payment.CreateCustomer (new StripeCustomerInfo ());
+            StripeInvoiceItemInfo info = GetInvoiceItemInfo ();
+            info.CustomerID = cust.ID;
+            StripeInvoiceItem item = payment.CreateInvoice (info);
+            StripeInvoiceItemInfo newInfo = GetInvoiceItemInfo ();
+            newInfo.Description = "Invoice item: " + Guid.NewGuid ().ToString ();
+            StripeInvoiceItem item2 = payment.UpdateInvoice (item.ID, newInfo);
+            StripeInvoiceItem item3 = payment.GetInvoice (item2.ID);
+            if (item.Description == item3.Description)
+                throw new Exception ("Update failed");
+            StripeInvoiceItem deleted = payment.DeleteInvoice (item2.ID);
+            if (!deleted.Deleted.HasValue && deleted.Deleted.Value)
+                throw new Exception ("Delete failed");
+            int total;
+            List<StripeInvoiceItem> items = payment.GetInvoices (10, 10, null, out total);
+            Console.WriteLine (total);
+            payment.DeleteCustomer (cust.ID);
         }
     }
 }

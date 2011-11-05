@@ -69,6 +69,7 @@
     <Compile Include="StripeSubscriptionInfo.cs" />
     <Compile Include="StripeInvoiceItem.cs" />
     <Compile Include="StripeInvoiceItemInfo.cs" />
+    <Compile Include="StripeInvoiceItemCollection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
