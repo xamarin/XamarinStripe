@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2011 Xamarin, Inc.
+ * Copyright 2011 Xamarin, Inc., Joe Dluzen
  *
  * Author(s):
  *  Gonzalo Paniagua Javier (gonzalo@xamarin.com)
@@ -28,9 +28,10 @@ using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
     public class StripePayment {
-        static string api_endpoint = "https://api.stripe.com/v1";
-        static string user_agent = "Stripe .NET v1";
-        static Encoding encoding = Encoding.UTF8;
+        static readonly string api_endpoint = "https://api.stripe.com/v1";
+        static readonly string subscription_path = "{0}/customers/{1}/subscription";
+        static readonly string user_agent = "Stripe .NET v1";
+        static readonly Encoding encoding = Encoding.UTF8;
         ICredentials credential;
 
         public StripePayment (string api_key)
@@ -49,8 +50,8 @@ namespace Xamarin.Payments.Stripe {
             req.Credentials = credential;
             req.PreAuthenticate = true;
             req.Timeout = TimeoutSeconds * 1000;
-            // Perhaps we should only set this for POST. DELETE and GET don't need it.
-            req.ContentType = "application/x-www-form-urlencoded";
+            if (method == "POST")
+                req.ContentType = "application/x-www-form-urlencoded";
             return req;
         }
 
@@ -362,7 +363,29 @@ namespace Xamarin.Payments.Stripe {
             total = plans.Total;
             return plans.Plans;
         }
+        #endregion
+        #region Subscriptions
+        public StripeSubscription Subscribe (string customerId, StripeSubscriptionInfo subscription)
+        {
+            StringBuilder str = UrlEncode (subscription);
+            string ep = string.Format (subscription_path, api_endpoint, customerId);
+            string json = DoRequest (ep, "POST", str.ToString ());
+            return JsonConvert.DeserializeObject<StripeSubscription> (json);
+        }
 
+        public StripeSubscription GetSubscription (string customerId)
+        {
+            string ep = string.Format (subscription_path, api_endpoint, customerId);
+            string json = DoRequest (ep);
+            return JsonConvert.DeserializeObject<StripeSubscription> (json);
+        }
+
+        public StripeSubscription Unsubscribe (string customerId, bool atPeriodEnd)
+        {
+            string ep = string.Format (subscription_path + "?at_period_end={2}", api_endpoint, customerId, atPeriodEnd);
+            string json = DoRequest (ep, "DELETE", null);
+            return JsonConvert.DeserializeObject<StripeSubscription> (json);
+        }
         #endregion
         public int TimeoutSeconds { get; set; }
     }
