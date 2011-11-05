@@ -36,7 +36,7 @@ namespace Xamarin.Payments.Stripe {
 
         #region IUrlEncoderInfo Members
 
-        public void UrlEncode (StringBuilder sb)
+        public virtual void UrlEncode (StringBuilder sb)
         {
             sb.AppendFormat ("id={0}&amount={1}&currency={2}&interval={3}&name={4}&",
                 HttpUtility.UrlEncode (ID), Amount, HttpUtility.UrlEncode (Currency ?? "usd"), HttpUtility.UrlEncode (Interval.ToString().ToLower ()), HttpUtility.UrlEncode (Name));

@@ -518,6 +518,58 @@ namespace Xamarin.Payments.Stripe {
             return JsonConvert.DeserializeObject<StripeInvoice> (json);
         }
         #endregion
+        #region Coupons
+        public StripeCoupon CreateCoupon (StripeCouponInfo coupon)
+        {
+            if (coupon == null)
+                throw new ArgumentNullException ("coupon");
+            if (coupon.PercentOff < 1 || coupon.PercentOff > 100)
+                throw new ArgumentOutOfRangeException ("coupon.PercentOff");
+            if (coupon.Duration == StripeDuration.Repeating && coupon.MonthsForDuration < 1)
+                throw new ArgumentException ("MonthsForDuration must be greater than 1 when Duration = Repeating");
+            StringBuilder str = UrlEncode (coupon);
+            string ep = string.Format ("{0}/coupons", api_endpoint);
+            string json = DoRequest (ep, "POST", str.ToString ());
+            return JsonConvert.DeserializeObject<StripeCoupon> (json);
+        }
+
+        public StripeCoupon GetCoupon (string couponId)
+        {
+            if (string.IsNullOrEmpty (couponId))
+                throw new ArgumentNullException ("couponId");
+            string ep = string.Format ("{0}/coupons/{1}", api_endpoint, couponId);
+            string json = DoRequest (ep);
+            return JsonConvert.DeserializeObject<StripeCoupon> (json);
+        }
+
+        public StripeCoupon DeleteCoupon (string couponId)
+        {
+            if (string.IsNullOrEmpty (couponId))
+                throw new ArgumentNullException ("couponId");
+            string ep = string.Format ("{0}/coupons/{1}", api_endpoint, couponId);
+            string json = DoRequest (ep, "DELETE", null);
+            return JsonConvert.DeserializeObject<StripeCoupon> (json);
+        }
+
+        public List<StripeCoupon> GetCoupons ()
+        {
+            int dummy;
+            return GetCoupons (0, 10, out dummy);
+        }
+
+        public List<StripeCoupon> GetCoupons (int offset, int count, out int total)
+        {
+            if (offset < 0)
+                throw new ArgumentOutOfRangeException ("offset");
+            if (count > 100)
+                throw new ArgumentOutOfRangeException ("count");
+            string ep = string.Format ("{0}/coupons?offset={0}&count={1}", api_endpoint, offset, count);
+            string json = DoRequest (ep);
+            StripeCouponCollection coupons = JsonConvert.DeserializeObject<StripeCouponCollection> (json);
+            total = coupons.Total;
+            return coupons.Coupons; 
+        }
+        #endregion
         public int TimeoutSeconds { get; set; }
     }
 }
