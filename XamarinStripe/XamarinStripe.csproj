@@ -70,6 +70,11 @@
     <Compile Include="StripeInvoiceItem.cs" />
     <Compile Include="StripeInvoiceItemInfo.cs" />
     <Compile Include="StripeInvoiceItemCollection.cs" />
+    <Compile Include="StripeInvoice.cs" />
+    <Compile Include="StripeInvoiceCollection.cs" />
+    <Compile Include="StripePeriod.cs" />
+    <Compile Include="StripeInvoiceLineItems.cs" />
+    <Compile Include="StripeInvoiceLineItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -376,6 +376,8 @@ namespace Xamarin.Payments.Stripe {
 
         public StripeSubscription GetSubscription (string customerId)
         {
+            if (string.IsNullOrEmpty (customerId))
+                throw new ArgumentNullException ("customerId");
             string ep = string.Format (subscription_path, api_endpoint, HttpUtility.UrlEncode (customerId));
             string json = DoRequest (ep);
             return JsonConvert.DeserializeObject<StripeSubscription> (json);
@@ -389,7 +391,7 @@ namespace Xamarin.Payments.Stripe {
         }
         #endregion
         #region Invoice items
-        public StripeInvoiceItem CreateInvoice (StripeInvoiceItemInfo item)
+        public StripeInvoiceItem CreateInvoiceItem (StripeInvoiceItemInfo item)
         {
             if (string.IsNullOrEmpty (item.CustomerID))
                 throw new ArgumentNullException("item.CustomerID");
@@ -399,45 +401,47 @@ namespace Xamarin.Payments.Stripe {
             return JsonConvert.DeserializeObject<StripeInvoiceItem> (json);
         }
 
-        public StripeInvoiceItem GetInvoice (string invoiceId)
+        public StripeInvoiceItem GetInvoiceItem (string invoiceItemId)
         {
-            string ep = string.Format ("{0}/invoiceitems/{1}", api_endpoint, invoiceId);
+            if (string.IsNullOrEmpty (invoiceItemId))
+                throw new ArgumentNullException ("invoiceItemId");
+            string ep = string.Format ("{0}/invoiceitems/{1}", api_endpoint, invoiceItemId);
             string json = DoRequest (ep);
             return JsonConvert.DeserializeObject<StripeInvoiceItem> (json);
         }
 
-        public StripeInvoiceItem UpdateInvoice (string invoiceId, StripeInvoiceItemInfo item)
+        public StripeInvoiceItem UpdateInvoiceItem (string invoiceItemId, StripeInvoiceItemInfo item)
         {
             StringBuilder str = UrlEncode (item);
-            string ep = string.Format ("{0}/invoiceitems/{1}", api_endpoint, invoiceId);
+            string ep = string.Format ("{0}/invoiceitems/{1}", api_endpoint, invoiceItemId);
             string json = DoRequest (ep, "POST", str.ToString ());
             return JsonConvert.DeserializeObject<StripeInvoiceItem> (json);
         }
 
-        public StripeInvoiceItem DeleteInvoice (string invoiceId)
+        public StripeInvoiceItem DeleteInvoiceItem (string invoiceItemId)
         {
-            string ep = string.Format ("{0}/invoiceitems/{1}", api_endpoint, invoiceId);
+            string ep = string.Format ("{0}/invoiceitems/{1}", api_endpoint, invoiceItemId);
             string json = DoRequest (ep, "DELETE", null);
             return JsonConvert.DeserializeObject<StripeInvoiceItem> (json);
         }
 
-        public List<StripeInvoiceItem> GetInvoices ()
+        public List<StripeInvoiceItem> GetInvoiceItems ()
         {
-            return GetInvoices (0, 10);
+            return GetInvoiceItems (0, 10);
         }
 
-        public List<StripeInvoiceItem> GetInvoices (int offset, int count)
+        public List<StripeInvoiceItem> GetInvoiceItems (int offset, int count)
         {
-            return GetInvoices (offset, count, null);
+            return GetInvoiceItems (offset, count, null);
         }
 
-        public List<StripeInvoiceItem> GetInvoices (int offset, int count, string customerId)
+        public List<StripeInvoiceItem> GetInvoiceItems (int offset, int count, string customerId)
         {
             int dummy;
-            return GetInvoices (offset, count, customerId, out dummy);
+            return GetInvoiceItems (offset, count, customerId, out dummy);
         }
 
-        public List<StripeInvoiceItem> GetInvoices (int offset, int count, string customerId, out int total)
+        public List<StripeInvoiceItem> GetInvoiceItems (int offset, int count, string customerId, out int total)
         {
             if (offset < 0)
                 throw new ArgumentOutOfRangeException ("offset");
@@ -456,6 +460,62 @@ namespace Xamarin.Payments.Stripe {
             StripeInvoiceItemCollection invoiceItems = JsonConvert.DeserializeObject<StripeInvoiceItemCollection> (json);
             total = invoiceItems.Total;
             return invoiceItems.InvoiceItems;
+        }
+        #endregion
+        #region Invoices
+        public StripeInvoice GetInvoice (string invoiceId)
+        {
+            if (string.IsNullOrEmpty (invoiceId))
+                throw new ArgumentNullException ("invoiceId");
+            string ep = string.Format ("{0}/invoices/{1}", api_endpoint, invoiceId);
+            string json = DoRequest (ep);
+            return JsonConvert.DeserializeObject<StripeInvoice> (json);
+        }
+
+        public List<StripeInvoice> GetInvoices ()
+        {
+            return GetInvoices (0, 10);
+        }
+
+        public List<StripeInvoice> GetInvoices (int offset, int count)
+        {
+            return GetInvoices (offset, count, null);
+        }
+
+        public List<StripeInvoice> GetInvoices (int offset, int count, string customerId)
+        {
+            int dummy;
+            return GetInvoices (offset, count, customerId, out dummy);
+        }
+
+        public List<StripeInvoice> GetInvoices (int offset, int count, string customerId, out int total)
+        {
+            if (offset < 0)
+                throw new ArgumentOutOfRangeException ("offset");
+            if (count < 1 || count > 100)
+                throw new ArgumentOutOfRangeException ("count");
+
+            StringBuilder str = new StringBuilder ();
+            str.AppendFormat ("offset={0}&", offset);
+            str.AppendFormat ("count={0}&", count);
+            if (!string.IsNullOrEmpty (customerId))
+                str.AppendFormat ("customer={0}&", HttpUtility.UrlEncode (customerId));
+
+            str.Length--;
+            string ep = String.Format ("{0}/invoices?{1}", api_endpoint, str);
+            string json = DoRequest (ep);
+            StripeInvoiceCollection invoiceItems = JsonConvert.DeserializeObject<StripeInvoiceCollection> (json);
+            total = invoiceItems.Total;
+            return invoiceItems.Invoices;
+        }
+
+        public StripeInvoice GetUpcomingInvoice (string customerId)
+        {
+            if (string.IsNullOrEmpty (customerId))
+                throw new ArgumentOutOfRangeException ("customerId");
+            string ep = String.Format ("{0}/invoices/upcoming?customer={1}", api_endpoint, customerId);
+            string json = DoRequest (ep);
+            return JsonConvert.DeserializeObject<StripeInvoice> (json);
         }
         #endregion
         public int TimeoutSeconds { get; set; }

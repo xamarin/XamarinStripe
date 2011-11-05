@@ -17,17 +17,17 @@
  * limitations under the License.
  */
 using System;
+using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
-    public enum StripeObject {
-        Unknown,
-        Card,
-        Charge,
-        Customer,
-        InvoiceItem,
-        Invoice,
-        Plan,
-        Subscription,
-        Token
+    [JsonObject (MemberSerialization.OptIn)]
+    public class StripePeriod {
+        [JsonProperty (PropertyName = "start")]
+        [JsonConverter (typeof(UnixDateTimeConverter))]
+        public DateTime Start { get; set; }
+
+        [JsonProperty (PropertyName = "end")]
+        [JsonConverter (typeof(UnixDateTimeConverter))]
+        public DateTime End { get; set; }
     }
 }

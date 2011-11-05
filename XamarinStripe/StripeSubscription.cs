@@ -20,46 +20,49 @@ using System;
 using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
-    [JsonObject(MemberSerialization.OptIn)]
-    public class StripeSubscription {
-        [JsonProperty(PropertyName = "current_period_end")]
-        [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime CurrentPeriodEnd { get; set; }
+    [JsonObject (MemberSerialization.OptIn)]
+    public class StripeSubscription : StripeInvoiceLineItem {
+        [JsonProperty (PropertyName = "current_period_end")]
+        [JsonConverter (typeof(UnixDateTimeConverter))]
+        public DateTime? CurrentPeriodEnd { get; set; }
 
-        [JsonProperty(PropertyName = "status")]
+        [JsonProperty (PropertyName = "status")]
         public StripeSubscriptionStatus Status { get; set; }
 
-        [JsonProperty(PropertyName = "plan")]
+        [JsonProperty (PropertyName = "plan")]
         public StripePlan Plan { get; set; }
 
-        [JsonProperty(PropertyName = "current_period_start")]
-        [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime CurrentPeriodStart { get; set; }
+        [JsonProperty (PropertyName = "current_period_start")]
+        [JsonConverter (typeof(UnixDateTimeConverter))]
+        public DateTime? CurrentPeriodStart { get; set; }
 
-        [JsonProperty(PropertyName = "start")]
-        [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime Start { get; set; }
+        [JsonProperty (PropertyName = "start")]
+        [JsonConverter (typeof(UnixDateTimeConverter))]
+        public DateTime? Start { get; set; }
 
-        [JsonProperty(PropertyName = "object")]
-        public StripeObject Object { get; set; }
+        [JsonProperty (PropertyName = "object")]
+        public StripeObject? Object { get; set; }
 
-        [JsonProperty(PropertyName = "trial_start")]
-        [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonProperty (PropertyName = "trial_start")]
+        [JsonConverter (typeof(UnixDateTimeConverter))]
         public DateTime? TrialStart { get; set; }
 
-        [JsonProperty(PropertyName = "trial_end")]
-        [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonProperty (PropertyName = "trial_end")]
+        [JsonConverter (typeof(UnixDateTimeConverter))]
         public DateTime? TrialEnd { get; set; }
 
-        [JsonProperty(PropertyName = "canceled_at")]
-        [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonProperty (PropertyName = "canceled_at")]
+        [JsonConverter (typeof(UnixDateTimeConverter))]
         public DateTime? CanceledAt { get; set; }
 
-        [JsonProperty(PropertyName = "ended_at")]
-        [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonProperty (PropertyName = "ended_at")]
+        [JsonConverter (typeof(UnixDateTimeConverter))]
         public DateTime? EndedAt { get; set; }
 
-        [JsonProperty(PropertyName = "customer")]
+        [JsonProperty (PropertyName = "customer")]
         public string CustomerID { get; set; }
+
+        [JsonProperty (PropertyName = "period")]
+        public StripePeriod Period { get; set; }
     }
 }

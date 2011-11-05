@@ -35,6 +35,8 @@ namespace PaymentTest {
             //TestCreatePlanGetPlan (payment);
             TestCreateSubscription (payment);
             TestCreateInvoiceItems (payment);
+            //TestInvoices (payment);
+            TestInvoices2 (payment);
         }
 
         static StripeCreditCardInfo GetCC ()
@@ -180,20 +182,68 @@ namespace PaymentTest {
             StripeCustomer cust = payment.CreateCustomer (new StripeCustomerInfo ());
             StripeInvoiceItemInfo info = GetInvoiceItemInfo ();
             info.CustomerID = cust.ID;
-            StripeInvoiceItem item = payment.CreateInvoice (info);
+            StripeInvoiceItem item = payment.CreateInvoiceItem (info);
             StripeInvoiceItemInfo newInfo = GetInvoiceItemInfo ();
             newInfo.Description = "Invoice item: " + Guid.NewGuid ().ToString ();
-            StripeInvoiceItem item2 = payment.UpdateInvoice (item.ID, newInfo);
-            StripeInvoiceItem item3 = payment.GetInvoice (item2.ID);
+            StripeInvoiceItem item2 = payment.UpdateInvoiceItem (item.ID, newInfo);
+            StripeInvoiceItem item3 = payment.GetInvoiceItem (item2.ID);
             if (item.Description == item3.Description)
                 throw new Exception ("Update failed");
-            StripeInvoiceItem deleted = payment.DeleteInvoice (item2.ID);
+            StripeInvoiceItem deleted = payment.DeleteInvoiceItem (item2.ID);
             if (!deleted.Deleted.HasValue && deleted.Deleted.Value)
                 throw new Exception ("Delete failed");
             int total;
-            List<StripeInvoiceItem> items = payment.GetInvoices (10, 10, null, out total);
+            List<StripeInvoiceItem> items = payment.GetInvoiceItems (10, 10, null, out total);
             Console.WriteLine (total);
             payment.DeleteCustomer (cust.ID);
+        }
+
+        static void TestInvoices (StripePayment payment)
+        {
+            List<StripeInvoice> invoices = payment.GetInvoices (10, 10);
+            StripeInvoice inv = payment.GetInvoice (invoices [0].ID);
+            StripeCustomer cust = payment.CreateCustomer (new StripeCustomerInfo ());
+            StripeSubscription sub = payment.Subscribe (cust.ID, new StripeSubscriptionInfo {
+                Card = GetCC ()
+            });
+            StripeInvoice inv2 = payment.GetUpcomingInvoice (cust.ID);
+            payment.Unsubscribe (cust.ID, true);
+            payment.DeleteCustomer (cust.ID);
+        }
+
+        static void TestInvoices2 (StripePayment payment)
+        {
+            StripeCustomer cust = payment.GetCustomer ("cus_ulcOcy5Seu2dpq");
+            StripePlanInfo planInfo = new StripePlanInfo{
+                Amount = 1999,
+                ID = "testplan",
+                Interval = StripeInterval.Month,
+                Name = "The Test Plan",
+            //TrialPeriod = 7
+            };
+            //payment.DeletePlan (planInfo.ID);
+            StripePlan plan = payment.CreatePlan (planInfo);
+            StripeSubscriptionInfo subInfo = new StripeSubscriptionInfo{
+                Card = GetCC (),
+                Plan = planInfo.ID,
+                Prorate = true
+            };
+            StripeSubscription sub = payment.Subscribe (cust.ID, subInfo);
+            payment.CreateInvoiceItem (new StripeInvoiceItemInfo {
+                CustomerID = cust.ID,
+                Amount = 1337,
+                Description = "Test single charge"
+            });
+
+            int total;
+            List<StripeInvoice> invoices = payment.GetInvoices (0, 10, cust.ID, out total);
+            StripeInvoice upcoming = payment.GetUpcomingInvoice (cust.ID);
+            payment.Unsubscribe (cust.ID, true);
+            payment.DeletePlan (planInfo.ID);
+            foreach (StripeInvoiceLineItem line in upcoming) {
+                Console.WriteLine ("{0} for type {1}", line.Amount, line.GetType ());
+            }
+
         }
     }
 }
