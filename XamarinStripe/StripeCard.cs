@@ -2,7 +2,8 @@
  * Copyright 2011 Xamarin, Inc.
  *
  * Author(s):
- * 	Gonzalo Paniagua Javier (gonzalo@xamarin.com)
+ *  Gonzalo Paniagua Javier (gonzalo@xamarin.com)
+ *  Joe Dluzen (jdluzen@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,5 +34,9 @@ namespace Xamarin.Payments.Stripe {
         public string Last4 { get; set; }
         [JsonProperty (PropertyName = "id")]
         public string ID { get; set; }
+        [JsonProperty (PropertyName = "cvc_check")]
+        public StripeCvcCheck CvcCheck { get; set; }
+        [JsonProperty (PropertyName = "object")]
+        public StripeObject Object { get; set; }
     }
 }
