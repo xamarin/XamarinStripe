@@ -63,9 +63,9 @@ namespace Xamarin.Payments.Stripe {
             }
         }
 
-        protected virtual string DoRequest(string endpoint)
+        protected virtual string DoRequest (string endpoint)
         {
-            return DoRequest(endpoint, "GET", null);
+            return DoRequest (endpoint, "GET", null);
         }
 
         protected virtual string DoRequest (string endpoint, string method, string body)
@@ -100,10 +100,10 @@ namespace Xamarin.Payments.Stripe {
             return result;
         }
 
-        protected virtual StringBuilder UrlEncode(IUrlEncoderInfo infoInstance)
+        protected virtual StringBuilder UrlEncode (IUrlEncoderInfo infoInstance)
         {
-            StringBuilder str = new StringBuilder();
-            infoInstance.UrlEncode(str);
+            StringBuilder str = new StringBuilder ();
+            infoInstance.UrlEncode (str);
             if (str.Length > 0)
                 str.Length--;
             return str;
@@ -216,7 +216,7 @@ namespace Xamarin.Payments.Stripe {
         #region Customer
         StripeCustomer CreateOrUpdateCustomer (string id, StripeCustomerInfo customer)
         {
-            StringBuilder str = UrlEncode(customer);
+            StringBuilder str = UrlEncode (customer);
 
             string format = "{0}/customers"; // Create
             if (id != null)
@@ -307,9 +307,9 @@ namespace Xamarin.Payments.Stripe {
             if (string.IsNullOrEmpty (tokenId))
                 throw new ArgumentNullException (tokenId);
 
-            string ep = string.Format ("{0}/tokens/{1}", api_endpoint,  HttpUtility.UrlEncode (tokenId));
+            string ep = string.Format ("{0}/tokens/{1}", api_endpoint, HttpUtility.UrlEncode (tokenId));
             string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeCreditCardToken>(json);
+            return JsonConvert.DeserializeObject<StripeCreditCardToken> (json);
         }
         #endregion
         #region Plans
@@ -352,7 +352,7 @@ namespace Xamarin.Payments.Stripe {
         public List<StripePlan> GetPlans (int offset, int count)
         {
             int dummy;
-            return GetPlans(offset, count, out dummy);
+            return GetPlans (offset, count, out dummy);
         }
 
         public List<StripePlan> GetPlans (int offset, int count, out int total)
@@ -394,7 +394,7 @@ namespace Xamarin.Payments.Stripe {
         public StripeInvoiceItem CreateInvoiceItem (StripeInvoiceItemInfo item)
         {
             if (string.IsNullOrEmpty (item.CustomerID))
-                throw new ArgumentNullException("item.CustomerID");
+                throw new ArgumentNullException ("item.CustomerID");
             StringBuilder str = UrlEncode (item);
             string ep = string.Format ("{0}/invoiceitems", api_endpoint);
             string json = DoRequest (ep, "POST", str.ToString ());
