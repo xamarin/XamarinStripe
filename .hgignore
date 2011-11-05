@@ -2,3 +2,4 @@ syntax: glob
 PaymentTest/bin/*
 XamarinStripe/bin/*
 *.userprefs
+*.pidb

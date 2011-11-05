@@ -3,7 +3,7 @@
  *
  * Author(s):
  *  Joe Dluzen (jdluzen@gmail.com)
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,26 +17,29 @@
  * limitations under the License.
  */
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
-    public class StripeChargeCollection : IEnumerable<StripeCharge> {
-        [JsonProperty (PropertyName = "count")]
+    [JsonObject(MemberSerialization.OptIn)]
+    public class StripeCustomerCollection : IEnumerable<StripeCustomer> {
+
+        [JsonProperty(PropertyName = "count")]
         public int Total { get; set; }
 
-        [JsonProperty (PropertyName = "data")]
-        public List<StripeCharge> Charges { get; set; }
+        [JsonProperty(PropertyName = "data")]
+        public List<StripeCustomer> Customers { get; set; }
 
-        #region IEnumerable[StripeCharge] implementation
-        public IEnumerator<StripeCharge> GetEnumerator ()
+        #region IEnumerable[StripeCustomer] implementation
+        public IEnumerator<StripeCustomer> GetEnumerator ()
         {
-            return Charges.GetEnumerator ();
+            return Customers.GetEnumerator ();
         }
         #endregion
 
         #region IEnumerable implementation
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator ()
+        IEnumerator IEnumerable.GetEnumerator ()
         {
             return GetEnumerator ();
         }

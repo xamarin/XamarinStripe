@@ -21,7 +21,7 @@ using System.Text;
 using System.Web;
 
 namespace Xamarin.Payments.Stripe {
-    public class StripeCreditCardInfo {
+    public class StripeCreditCardInfo : IUrlEncoderInfo {
         // Mandatory
         public string Number { get; set; }
         // Mandatory when Number is a not one-time token instead of a number
@@ -37,7 +37,7 @@ namespace Xamarin.Payments.Stripe {
         public string StateOrProvince { get; set; }
         public string Country { get; set; }
 
-        public void UrlEncode (StringBuilder sb)
+        public virtual void UrlEncode (StringBuilder sb)
         {
             if (String.IsNullOrEmpty (Number))
                 throw new ArgumentNullException ("Number");

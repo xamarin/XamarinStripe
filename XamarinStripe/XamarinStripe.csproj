@@ -57,6 +57,9 @@
     <Compile Include="StripeChargeCollection.cs" />
     <Compile Include="StripeCvcCheck.cs" />
     <Compile Include="StripeObject.cs" />
+    <Compile Include="IUrlEncoderInfo.cs" />
+    <Compile Include="StripeCustomerCollection.cs" />
+    <Compile Include="StripeCreditCardToken.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

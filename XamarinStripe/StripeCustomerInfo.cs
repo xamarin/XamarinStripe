@@ -22,7 +22,7 @@ using System.Text;
 using System.Web;
 
 namespace Xamarin.Payments.Stripe {
-    public class StripeCustomerInfo {
+    public class StripeCustomerInfo : IUrlEncoderInfo {
         public StripeCreditCardInfo Card { get; set; }
         // The strings allow ""
         public string Coupon { get; set; }
@@ -32,7 +32,7 @@ namespace Xamarin.Payments.Stripe {
         public DateTime? TrialEnd { get; set; }
         public bool? Validate { get; set; }
 
-        public void UrlEncode (StringBuilder sb)
+        public virtual void UrlEncode (StringBuilder sb)
         {
             if (Card != null)
                 Card.UrlEncode (sb);
