@@ -310,7 +310,60 @@ namespace Xamarin.Payments.Stripe {
             return JsonConvert.DeserializeObject<StripeCreditCardToken>(json);
         }
         #endregion
+        #region Plans
+        public StripePlan CreatePlan (StripePlanInfo plan)
+        {
+            if (plan == null)
+                throw new ArgumentNullException ("plan");
+            StringBuilder str = UrlEncode (plan);
 
+            string ep = string.Format ("{0}/plans", api_endpoint);
+            string json = DoRequest (ep, "POST", str.ToString ());
+            return JsonConvert.DeserializeObject<StripePlan> (json);
+        }
+
+        public StripePlan GetPlan (string planId)
+        {
+            if (string.IsNullOrEmpty (planId))
+                throw new ArgumentNullException ("id");
+
+            string ep = string.Format ("{0}/plans/{1}", api_endpoint, HttpUtility.UrlEncode (planId));
+            string json = DoRequest (ep);
+            return JsonConvert.DeserializeObject<StripePlan> (json);
+        }
+
+        public StripePlan DeletePlan (string planId)
+        {
+            if (string.IsNullOrEmpty (planId))
+                throw new ArgumentNullException ("id");
+
+            string ep = string.Format ("{0}/plans/{1}", api_endpoint, HttpUtility.UrlEncode (planId));
+            string json = DoRequest (ep, "DELETE", null);
+            return JsonConvert.DeserializeObject<StripePlan> (json);
+        }
+
+        public List<StripePlan> GetPlans ()
+        {
+            return GetPlans (0, 10);
+        }
+
+        public List<StripePlan> GetPlans (int offset, int count)
+        {
+            int dummy;
+            return GetPlans(offset, count, out dummy);
+        }
+
+        public List<StripePlan> GetPlans (int offset, int count, out int total)
+        {
+            string str = string.Format ("count={0}&offset={1}", count, offset);
+            string ep = string.Format ("{0}/plans?{1}", api_endpoint, str);
+            string json = DoRequest (ep);
+            StripePlanCollection plans = JsonConvert.DeserializeObject<StripePlanCollection> (json);
+            total = plans.Total;
+            return plans.Plans;
+        }
+
+        #endregion
         public int TimeoutSeconds { get; set; }
     }
 }

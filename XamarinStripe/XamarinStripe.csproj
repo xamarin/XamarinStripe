@@ -60,6 +60,10 @@
     <Compile Include="IUrlEncoderInfo.cs" />
     <Compile Include="StripeCustomerCollection.cs" />
     <Compile Include="StripeCreditCardToken.cs" />
+    <Compile Include="StripePlan.cs" />
+    <Compile Include="StripePlanInfo.cs" />
+    <Compile Include="StripeInterval.cs" />
+    <Compile Include="StripePlanCollection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
