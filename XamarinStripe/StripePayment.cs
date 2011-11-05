@@ -19,6 +19,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -306,7 +307,7 @@ namespace Xamarin.Payments.Stripe {
             if (string.IsNullOrEmpty (tokenId))
                 throw new ArgumentNullException (tokenId);
 
-            string ep = string.Format ("{0}/tokens/{1}", api_endpoint, tokenId);
+            string ep = string.Format ("{0}/tokens/{1}", api_endpoint,  HttpUtility.UrlEncode (tokenId));
             string json = DoRequest (ep);
             return JsonConvert.DeserializeObject<StripeCreditCardToken>(json);
         }
@@ -368,24 +369,27 @@ namespace Xamarin.Payments.Stripe {
         public StripeSubscription Subscribe (string customerId, StripeSubscriptionInfo subscription)
         {
             StringBuilder str = UrlEncode (subscription);
-            string ep = string.Format (subscription_path, api_endpoint, customerId);
+            string ep = string.Format (subscription_path, api_endpoint, HttpUtility.UrlEncode (customerId));
             string json = DoRequest (ep, "POST", str.ToString ());
             return JsonConvert.DeserializeObject<StripeSubscription> (json);
         }
 
         public StripeSubscription GetSubscription (string customerId)
         {
-            string ep = string.Format (subscription_path, api_endpoint, customerId);
+            string ep = string.Format (subscription_path, api_endpoint, HttpUtility.UrlEncode (customerId));
             string json = DoRequest (ep);
             return JsonConvert.DeserializeObject<StripeSubscription> (json);
         }
 
         public StripeSubscription Unsubscribe (string customerId, bool atPeriodEnd)
         {
-            string ep = string.Format (subscription_path + "?at_period_end={2}", api_endpoint, customerId, atPeriodEnd);
+            string ep = string.Format (subscription_path + "?at_period_end={2}", api_endpoint, HttpUtility.UrlEncode (customerId), atPeriodEnd.ToString (CultureInfo.InvariantCulture).ToLowerInvariant ());
             string json = DoRequest (ep, "DELETE", null);
             return JsonConvert.DeserializeObject<StripeSubscription> (json);
         }
+        #endregion
+        #region Invoices
+
         #endregion
         public int TimeoutSeconds { get; set; }
     }

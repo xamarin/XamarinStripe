@@ -1,8 +1,9 @@
 ﻿/*
- * Copyright 2011 Xamarin, Inc.
+ * Copyright 2011 Xamarin, Inc., Joe Dluzen
  *
  * Author(s):
- * 	Gonzalo Paniagua Javier (gonzalo@xamarin.com)
+ *  Gonzalo Paniagua Javier (gonzalo@xamarin.com)
+ *  Joe Dluzen (jdluzen@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,12 +25,15 @@ namespace PaymentTest {
     class Program {
         static void Main (string [] args)
         {
-            StripePayment payment = new StripePayment ("YOURSECRETKEYGOESHERE");
-            TestSimpleCharge (payment);
-            TestCustomer (payment);
-            TestCustomerAndCharge (payment);
-            TestGetCharges (payment);
-            TestGetCustomers (payment);
+            StripePayment payment = new StripePayment ("vtUQeOtUnYr7PGCLQ96Ul4zqpDUO4sOE");
+            //TestSimpleCharge (payment);
+            //TestCustomer (payment);
+            //TestCustomerAndCharge (payment);
+            //TestGetCharges (payment);
+            //TestGetCustomers (payment);
+            //TestCreateGetToken (payment);
+            //TestCreatePlanGetPlan (payment);
+            TestCreateSubscription (payment);
         }
 
         static StripeCreditCardInfo GetCC ()
@@ -42,6 +46,18 @@ namespace PaymentTest {
             return cc;
         }
 
+        static StripePlanInfo GetPlanInfo ()
+        {
+            return new StripePlanInfo
+            {
+                Amount = 1999,
+                ID = "myplan",
+                Interval = StripeInterval.Month,
+                Name = "My standard plan",
+                TrialPeriod = 7
+            };
+        }
+
         static void TestSimpleCharge (StripePayment payment)
         {
             StripeCreditCardInfo cc = GetCC ();
@@ -50,6 +66,9 @@ namespace PaymentTest {
             string charge_id = charge.ID;
             StripeCharge charge_info = payment.GetCharge (charge_id);
             Console.WriteLine (charge_info);
+
+            StripeCharge refund = payment.Refund (charge_info.ID);
+            Console.WriteLine (refund.Created);
         }
 
         static void TestCustomer (StripePayment payment)
@@ -94,6 +113,58 @@ namespace PaymentTest {
         {
             List<StripeCustomer> customers = payment.GetCustomers (0, 10);
             Console.WriteLine (customers.Count);
+        }
+
+        static void TestCreateGetToken (StripePayment payment)
+        {
+            StripeCreditCardToken tok = payment.CreateToken (GetCC ());
+            StripeCreditCardToken tok2 = payment.GetToken (tok.ID);
+        }
+
+        static void TestCreatePlanGetPlan (StripePayment payment)
+        {
+            StripePlan plan = CreatePlan (payment);
+            int total;
+            List<StripePlan> plans = payment.GetPlans (10, 10, out total);
+            Console.WriteLine (total);
+        }
+
+        static StripePlan CreatePlan (StripePayment payment)
+        {
+            StripePlan plan = payment.CreatePlan (GetPlanInfo ());
+            StripePlan plan2 = payment.GetPlan (plan.ID);
+            //DeletePlan (plan2, payment);
+            return plan2;
+        }
+
+        static StripePlan DeletePlan (StripePlan plan, StripePayment payment)
+        {
+            StripePlan deleted = payment.DeletePlan (plan.ID);
+            return deleted;
+        }
+
+        static void TestCreateSubscription (StripePayment payment)
+        {
+            StripeCustomer cust = payment.CreateCustomer (new StripeCustomerInfo {
+                Card = GetCC ()
+            });
+            //StripePlan temp = new StripePlan { ID = "myplan" };
+            //DeletePlan (temp, payment);
+            StripePlan plan = CreatePlan (payment);
+            StripeSubscription sub = payment.Subscribe (cust.ID, new StripeSubscriptionInfo {
+                Card = GetCC (),
+                Plan = "myplan",
+                Prorate = true
+            });
+            StripeSubscription sub2 = payment.GetSubscription (sub.CustomerID);
+            TestDeleteSubscription (cust, payment);
+            DeletePlan (plan, payment);
+        }
+
+        static StripeSubscription TestDeleteSubscription (StripeCustomer customer, StripePayment payment)
+        {
+            StripeSubscription sub = payment.Unsubscribe (customer.ID, true);
+            return sub;
         }
     }
 }

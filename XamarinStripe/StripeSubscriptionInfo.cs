@@ -19,6 +19,7 @@
 using System;
 using System.Globalization;
 using System.Text;
+using System.Web;
 
 namespace Xamarin.Payments.Stripe {
     public class StripeSubscriptionInfo : IUrlEncoderInfo {
@@ -34,10 +35,10 @@ namespace Xamarin.Payments.Stripe {
 
         public virtual void UrlEncode (StringBuilder sb)
         {
-            sb.AppendFormat ("plan={0}&", Plan);
+            sb.AppendFormat ("plan={0}&", HttpUtility.UrlEncode (Plan));
             if (!string.IsNullOrEmpty (Coupon))
-                sb.AppendFormat ("coupon={0}&", Coupon);
-            if (Prorate != null)
+                sb.AppendFormat ("coupon={0}&", HttpUtility.UrlEncode (Coupon));
+            if (Prorate != null && Prorate.HasValue)
                 sb.AppendFormat ("prorate={0}&", Prorate.Value.ToString (CultureInfo.InvariantCulture).ToLowerInvariant ());
             if (TrialEnd != null)
                 sb.AppendFormat ("trial_end={0}&", TrialEnd.Value.ToUnixEpoch ());
