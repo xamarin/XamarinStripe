@@ -1,0 +1,8 @@
+syntax: glob
+PaymentTest/bin/*
+XamarinStripe/bin/*
+*.userprefs
+*.pidb
+PaymentTest/obj/*
+XamarinStripe/obj/*
+*.suo

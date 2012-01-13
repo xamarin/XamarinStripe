@@ -1,8 +1,7 @@
-﻿/*
- * Copyright 2011 Xamarin, Inc.
+/*
+ * Copyright 2011 Joe Dluzen
  *
  * Author(s):
- *  Gonzalo Paniagua Javier (gonzalo@xamarin.com)
  *  Joe Dluzen (jdluzen@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,26 +16,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+using System;
 using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
     [JsonObject (MemberSerialization.OptIn)]
-    public class StripeCard {
-        [JsonProperty (PropertyName = "type")]
-        public string Type { get; set; }
-        [JsonProperty (PropertyName = "country")]
-        public string Country { get; set; }
-        [JsonProperty (PropertyName = "exp_month")]
-        public int ExpirationMonth { get; set; }
-        [JsonProperty (PropertyName = "exp_year")]
-        public int ExpirationYear { get; set; }
-        [JsonProperty (PropertyName = "last4")]
-        public string Last4 { get; set; }
-        [JsonProperty (PropertyName = "id")]
-        public string ID { get; set; }
-        [JsonProperty (PropertyName = "cvc_check")]
-        public StripeCvcCheck CvcCheck { get; set; }
+    public class StripeCoupon {
+        [JsonProperty (PropertyName = "times_redeemed")]
+        public int TimesRedeemed { get; set; }
+
+        [JsonProperty (PropertyName = "livemode")]
+        public bool LiveMode { get; set; }
+
         [JsonProperty (PropertyName = "object")]
         public StripeObject Object { get; set; }
+
+        [JsonProperty (PropertyName = "duration")]
+        public StripeCouponDuration Duration { get; set; }
+
+        [JsonProperty (PropertyName = "id")]
+        public string ID { get; set; }
+
+        [JsonProperty (PropertyName = "percent_off")]
+        public int PercentOff { get; set; }
+
+        [JsonProperty (PropertyName = "deleted")]
+        public bool? Deleted { get; set; }
     }
 }
