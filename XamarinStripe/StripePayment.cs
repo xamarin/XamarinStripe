@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2011 Xamarin, Inc., Joe Dluzen
+ * Copyright 2011 Xamarin, Inc., 2011 - 2012 Joe Dluzen
  *
  * Author(s):
  *  Gonzalo Paniagua Javier (gonzalo@xamarin.com)
@@ -209,6 +209,18 @@ namespace Xamarin.Payments.Stripe {
                 throw new ArgumentNullException ("charge_id");
 
             string ep = String.Format ("{0}/charges/{1}/refund", api_endpoint, HttpUtility.UrlEncode (charge_id));
+            string json = DoRequest (ep, "POST", null);
+            return JsonConvert.DeserializeObject<StripeCharge> (json);
+        }
+
+        public StripeCharge Refund (string charge_id, int amount)
+        {
+            if (String.IsNullOrEmpty (charge_id))
+                throw new ArgumentNullException ("charge_id");
+            if (amount <= 0)
+                throw new ArgumentException ("Amount must be greater than zero.", "amount");
+
+            string ep = String.Format ("{0}/charges/{1}/refund?amount={2}", api_endpoint, HttpUtility.UrlEncode (charge_id), amount);
             string json = DoRequest (ep, "POST", null);
             return JsonConvert.DeserializeObject<StripeCharge> (json);
         }
@@ -525,7 +537,7 @@ namespace Xamarin.Payments.Stripe {
                 throw new ArgumentNullException ("coupon");
             if (coupon.PercentOff < 1 || coupon.PercentOff > 100)
                 throw new ArgumentOutOfRangeException ("coupon.PercentOff");
-            if (coupon.Duration == StripeDuration.Repeating && coupon.MonthsForDuration < 1)
+            if (coupon.Duration == StripeCouponDuration.Repeating && coupon.MonthsForDuration < 1)
                 throw new ArgumentException ("MonthsForDuration must be greater than 1 when Duration = Repeating");
             StringBuilder str = UrlEncode (coupon);
             string ep = string.Format ("{0}/coupons", api_endpoint);

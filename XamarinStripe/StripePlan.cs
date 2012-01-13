@@ -38,7 +38,7 @@ namespace Xamarin.Payments.Stripe {
         public string Identifier { get; set; }
 
         [JsonProperty (PropertyName = "interval")]
-        public StripeInterval Interval { get; set; }
+        public StripePlanInterval Interval { get; set; }
 
         [JsonProperty (PropertyName = "livemode")]
         public bool LiveMode { get; set; }

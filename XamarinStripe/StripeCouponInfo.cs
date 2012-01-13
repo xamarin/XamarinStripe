@@ -26,7 +26,7 @@ namespace Xamarin.Payments.Stripe {
 
         public int PercentOff { get; set; }
 
-        public StripeDuration Duration { get; set; }
+        public StripeCouponDuration Duration { get; set; }
 
         public int MonthsForDuration { get; set; }
 

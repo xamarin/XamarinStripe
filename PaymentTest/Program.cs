@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using Xamarin.Payments.Stripe;
+using Newtonsoft.Json;
 
 namespace PaymentTest {
     class Program {
@@ -27,16 +28,18 @@ namespace PaymentTest {
         {
             StripePayment payment = new StripePayment ("vtUQeOtUnYr7PGCLQ96Ul4zqpDUO4sOE");
             //TestSimpleCharge (payment);
+            //TestPartialRefund (payment);
             //TestCustomer (payment);
             //TestCustomerAndCharge (payment);
             //TestGetCharges (payment);
             //TestGetCustomers (payment);
             //TestCreateGetToken (payment);
             //TestCreatePlanGetPlan (payment);
-            TestCreateSubscription (payment);
-            TestCreateInvoiceItems (payment);
+            //TestCreateSubscription (payment);
+            //TestCreateInvoiceItems (payment);
             //TestInvoices (payment);
-            TestInvoices2 (payment);
+            //TestInvoices2 (payment);
+            TestDeserializePastDue ();
         }
 
         static StripeCreditCardInfo GetCC ()
@@ -54,7 +57,7 @@ namespace PaymentTest {
             return new StripePlanInfo {
                 Amount = 1999,
                 ID = "myplan",
-                Interval = StripeInterval.Month,
+                Interval = StripePlanInterval.Month,
                 Name = "My standard plan",
                 TrialPeriod = 7
             };
@@ -79,6 +82,15 @@ namespace PaymentTest {
 
             StripeCharge refund = payment.Refund (charge_info.ID);
             Console.WriteLine (refund.Created);
+        }
+
+        static void TestPartialRefund (StripePayment payment)
+        {
+            StripeCreditCardInfo cc = GetCC ();
+            StripeCharge charge = payment.Charge (5001, "usd", cc, "Test partial refund");
+            Console.WriteLine (charge.ID);
+            StripeCharge refund = payment.Refund (charge.ID, 2499);
+            Console.WriteLine (refund.Amount);
         }
 
         static void TestCustomer (StripePayment payment)
@@ -217,7 +229,7 @@ namespace PaymentTest {
             StripePlanInfo planInfo = new StripePlanInfo{
                 Amount = 1999,
                 ID = "testplan",
-                Interval = StripeInterval.Month,
+                Interval = StripePlanInterval.Month,
                 Name = "The Test Plan",
             //TrialPeriod = 7
             };
@@ -244,6 +256,17 @@ namespace PaymentTest {
                 Console.WriteLine ("{0} for type {1}", line.Amount, line.GetType ());
             }
 
+        }
+
+        static void TestDeserializePastDue ()
+        {
+            string json = @"{
+  ""status"": ""past_due"",
+}";
+            StripeSubscription sub = JsonConvert.DeserializeObject<StripeSubscription> (json);
+            if (sub.Status != StripeSubscriptionStatus.PastDue)
+                throw new Exception ("Failed to deserialize `StripeSubscriptionStatus.PastDue`");
+            string json2 = JsonConvert.SerializeObject(sub);
         }
     }
 }

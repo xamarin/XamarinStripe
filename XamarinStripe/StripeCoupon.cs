@@ -32,7 +32,7 @@ namespace Xamarin.Payments.Stripe {
         public StripeObject Object { get; set; }
 
         [JsonProperty (PropertyName = "duration")]
-        public StripeDuration Duration { get; set; }
+        public StripeCouponDuration Duration { get; set; }
 
         [JsonProperty (PropertyName = "id")]
         public string ID { get; set; }

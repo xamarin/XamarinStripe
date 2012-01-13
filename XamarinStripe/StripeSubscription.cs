@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Joe Dluzen
+ * Copyright 2011, 2012 Joe Dluzen
  *
  * Author(s):
  *  Joe Dluzen (jdluzen@gmail.com)
@@ -27,6 +27,7 @@ namespace Xamarin.Payments.Stripe {
         public DateTime? CurrentPeriodEnd { get; set; }
 
         [JsonProperty (PropertyName = "status")]
+        [JsonConverter (typeof(SubscriptionStatusConverter))]
         public StripeSubscriptionStatus Status { get; set; }
 
         [JsonProperty (PropertyName = "plan")]

@@ -28,7 +28,7 @@ namespace Xamarin.Payments.Stripe {
 
         public string Currency { get; set; }
 
-        public StripeInterval Interval { get; set; }
+        public StripePlanInterval Interval { get; set; }
 
         public string Name { get; set; }
 

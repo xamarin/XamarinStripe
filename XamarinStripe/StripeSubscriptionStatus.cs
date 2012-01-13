@@ -23,7 +23,7 @@ namespace Xamarin.Payments.Stripe {
         Unknown,
         Trialing,
         Active,
-        Past_Due,
+        PastDue,
         Canceled,
         Unpaid
     }

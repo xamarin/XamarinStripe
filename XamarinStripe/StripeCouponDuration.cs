@@ -19,8 +19,9 @@
 using System;
 
 namespace Xamarin.Payments.Stripe {
-    public enum StripeInterval {
-        Month,
-        Year
+    public enum StripeCouponDuration {
+        Forever,
+        Once,
+        Repeating
     }
 }

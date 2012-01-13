@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2011 Xamarin, Inc.
+ * Copyright 2011 Xamarin, Inc., 2011 - 2012 Joe Dluzen
  *
  * Author(s):
  *  Gonzalo Paniagua Javier (gonzalo@xamarin.com)
@@ -27,6 +27,8 @@ namespace Xamarin.Payments.Stripe {
         public bool Attempted { get; set; }
         [JsonProperty (PropertyName = "refunded")]
         public bool Refunded { get; set; }
+        [JsonProperty (PropertyName = "amount_refunded")]
+        public int AmountRefunded { get; set; }
         [JsonProperty (PropertyName = "paid")]
         public bool Paid { get; set; }
         [JsonProperty (PropertyName = "amount")]

@@ -62,7 +62,6 @@
     <Compile Include="StripeCreditCardToken.cs" />
     <Compile Include="StripePlan.cs" />
     <Compile Include="StripePlanInfo.cs" />
-    <Compile Include="StripeInterval.cs" />
     <Compile Include="StripePlanCollection.cs" />
     <Compile Include="StripeSubscriptionStatus.cs" />
     <Compile Include="StripeSubscription.cs" />
@@ -76,9 +75,11 @@
     <Compile Include="StripeInvoiceLineItems.cs" />
     <Compile Include="StripeInvoiceLineItem.cs" />
     <Compile Include="StripeCouponInfo.cs" />
-    <Compile Include="StripeDuration.cs" />
     <Compile Include="StripeCoupon.cs" />
     <Compile Include="StripeCouponCollection.cs" />
+    <Compile Include="StripeCouponDuration.cs" />
+    <Compile Include="StripePlanInterval.cs" />
+    <Compile Include="SubscriptionStatusConverter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
