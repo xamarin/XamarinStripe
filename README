@@ -1,8 +1,5 @@
 XamarinStripe provides .NET bindings to process online payments with Stripe.com.
 
-Currently the bindings support the charge, refund, and customer APIs.
-Missing support for plans, coupons, recurring payments.
-
 	XamarinStripe/
 
 		Source code for the assembly.
