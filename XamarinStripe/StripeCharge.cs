@@ -1,8 +1,9 @@
 ﻿/*
- * Copyright 2011 Xamarin, Inc.
+ * Copyright 2011 Xamarin, Inc., 2011 - 2012 Joe Dluzen
  *
  * Author(s):
- * 	Gonzalo Paniagua Javier (gonzalo@xamarin.com)
+ *  Gonzalo Paniagua Javier (gonzalo@xamarin.com)
+ *  Joe Dluzen (jdluzen@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,10 +27,14 @@ namespace Xamarin.Payments.Stripe {
         public bool Attempted { get; set; }
         [JsonProperty (PropertyName = "refunded")]
         public bool Refunded { get; set; }
+        [JsonProperty (PropertyName = "amount_refunded")]
+        public int AmountRefunded { get; set; }
         [JsonProperty (PropertyName = "paid")]
         public bool Paid { get; set; }
         [JsonProperty (PropertyName = "amount")]
         public int Amount { get; set; }
+        [JsonProperty (PropertyName = "fee")]
+        public int Fee { get; set; }
         [JsonProperty (PropertyName = "id")]
         public string ID { get; set; }
         [JsonProperty (PropertyName = "livemode")]
@@ -41,6 +46,8 @@ namespace Xamarin.Payments.Stripe {
         [JsonProperty (PropertyName = "created")]
         [JsonConverter (typeof (UnixDateTimeConverter))]
         public DateTime? Created { get; set; }
+        [JsonProperty (PropertyName = "object")]
+        public StripeObject Object { get; set; }
         [JsonProperty (PropertyName = "card")]
         public StripeCard Card { get; set; }
     }
