@@ -19,18 +19,19 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System.Dynamic;
 using Newtonsoft.Json.Linq;
 
 namespace Xamarin.Payments.Stripe {
     public class StripeEvent : StripeObject {
         [JsonProperty (PropertyName = "livemode")]
-        bool LiveMode { get; set; }
+        public bool LiveMode { get; set; }
+
         [JsonProperty (PropertyName = "created")]
         [JsonConverter (typeof (UnixDateTimeConverter))]
         public DateTime? Created { get; set; }
+
         [JsonProperty (PropertyName = "type")]
-        public string type { get; set; }
+        public string Type { get; set; }
     
         [JsonProperty (PropertyName= "data")]
         public EventData Data { get; set; }
@@ -39,6 +40,9 @@ namespace Xamarin.Payments.Stripe {
             [JsonProperty (PropertyName = "object")]
             [JsonConverter (typeof (StripeObjectConverter))]
             public StripeObject Object { get; set; }
+
+            [JsonProperty (PropertyName = "previous_attributes")]
+            public JObject PreviousAttributes { get; set; }
         }
     }
 }
