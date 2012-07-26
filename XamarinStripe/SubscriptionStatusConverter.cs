@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Joe Dluzen
+ * Copyright 2012 Joe Dluzen, 2012 Xamarin, Inc.
  *
  * Author(s):
  *  Joe Dluzen (jdluzen@gmail.com)
@@ -22,7 +22,7 @@ using Newtonsoft.Json.Converters;
 
 namespace Xamarin.Payments.Stripe {
     public class SubscriptionStatusConverter : JsonConverter {
-        protected const string PastDue = "past_due";
+        protected const string PastDue = "Past_due";
 
         public override bool CanConvert (Type objectType)
         {
@@ -35,6 +35,8 @@ namespace Xamarin.Payments.Stripe {
                 throw new Exception (string.Format ("Unexpected token parsing StripeSubscriptionStatus. Expected String, got {0}.", reader.TokenType));
 
             string value = reader.Value as string;
+            value = value.Substring (0, 1).ToUpperInvariant() + value.Substring (1);
+
             if (value == PastDue)
                 return StripeSubscriptionStatus.PastDue;
             return Enum.Parse (typeof(StripeSubscriptionStatus), value);
@@ -43,9 +45,9 @@ namespace Xamarin.Payments.Stripe {
         public override void WriteJson (JsonWriter writer, object value, JsonSerializer serializer)
         {
             if ((StripeSubscriptionStatus) value == StripeSubscriptionStatus.PastDue)
-                writer.WriteValue (PastDue);
+                writer.WriteValue (PastDue.ToLowerInvariant());
             else
-                writer.WriteValue (value.ToString ());
+                writer.WriteValue (value.ToString ().ToLowerInvariant());
         }
     }
 }

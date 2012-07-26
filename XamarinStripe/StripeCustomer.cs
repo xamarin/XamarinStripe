@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2011 Xamarin, Inc.
+ * Copyright 2011 - 2012 Xamarin, Inc.
  *
  * Author(s):
  * 	Gonzalo Paniagua Javier (gonzalo@xamarin.com)
@@ -21,19 +21,37 @@ using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
     [JsonObject (MemberSerialization.OptIn)]
-    public class StripeCustomer {
+    public class StripeCustomer : StripeObject {
+
         [JsonProperty (PropertyName = "livemode")]
         public bool LiveMode { get; set; }
+
         [JsonProperty (PropertyName = "description")]
         public string Description { get; set; }
+
         [JsonProperty (PropertyName = "created")]
         [JsonConverter (typeof (UnixDateTimeConverter))]
         public DateTime? Created { get; set; }
-        [JsonProperty (PropertyName = "id")]
-        public string ID { get; set; }
+
         [JsonProperty (PropertyName = "deleted")]
         public bool Deleted { get; set; }
+
         [JsonProperty (PropertyName = "active_card")]
         public StripeCard Card { get; set; }
+
+        [JsonProperty (PropertyName = "account_balance")]
+        public int AccountBalance { get; set; }
+
+        [JsonProperty (PropertyName = "deliquent")]
+        public bool? Deliquent { get; set; }
+
+        [JsonProperty (PropertyName = "email")]
+        public string Email { get; set; }
+
+        [JsonProperty (PropertyName = "discount")]
+        public StripeDiscount Discount { get; set; }
+
+        [JsonProperty (PropertyName = "subscription")]
+        public StripeSubscription Subscription { get; set; }
     }
 }

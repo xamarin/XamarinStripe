@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2011 Xamarin, Inc.
+ * Copyright 2011 - 2012 Xamarin, Inc.
  *
  * Author(s):
  *  Gonzalo Paniagua Javier (gonzalo@xamarin.com)
@@ -21,7 +21,7 @@ using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
     [JsonObject (MemberSerialization.OptIn)]
-    public class StripeCard {
+    public class StripeCard : StripeObject {
         [JsonProperty (PropertyName = "type")]
         public string Type { get; set; }
         [JsonProperty (PropertyName = "country")]
@@ -32,11 +32,21 @@ namespace Xamarin.Payments.Stripe {
         public int ExpirationYear { get; set; }
         [JsonProperty (PropertyName = "last4")]
         public string Last4 { get; set; }
-        [JsonProperty (PropertyName = "id")]
-        public string ID { get; set; }
         [JsonProperty (PropertyName = "cvc_check")]
         public StripeCvcCheck CvcCheck { get; set; }
-        [JsonProperty (PropertyName = "object")]
-        public StripeObject Object { get; set; }
+        [JsonProperty (PropertyName = "address_country")]
+        public StripeObject AddressCountry { get; set; }
+        [JsonProperty (PropertyName = "address_state")]
+        public StripeObject AddressState { get; set; }
+        [JsonProperty (PropertyName = "address_zip")]
+        public StripeObject AddressZip { get; set; }
+        [JsonProperty (PropertyName = "address_line1")]
+        public StripeObject AddressLine1 { get; set; }
+        [JsonProperty (PropertyName = "address_line2")]
+        public StripeObject AddressLine2 { get; set; }
+        [JsonProperty (PropertyName = "address_zip_check")]
+        public string AddressZipCheck { get; set; }
+        [JsonProperty (PropertyName = "name")]
+        public string Name { get; set; }
     }
 }

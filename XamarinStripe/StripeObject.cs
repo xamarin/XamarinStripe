@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Joe Dluzen
+ * Copyright 2011 Joe Dluzen, 2012 Xamarin, Inc.
  *
  * Author(s):
  *  Joe Dluzen (jdluzen@gmail.com)
@@ -17,17 +17,29 @@
  * limitations under the License.
  */
 using System;
+using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
-    public enum StripeObject {
+    public class StripeObject {
+        [JsonProperty (PropertyName = "id")] 
+        public string ID { get; set; }
+        [JsonProperty (PropertyName = "object")]
+        public StripeObjectType Object { get; set; }
+    }
+
+    public enum StripeObjectType {
         Unknown,
         Card,
         Charge,
+        Coupon,
         Customer,
+        Discount,
+        Event,
         InvoiceItem,
         Invoice,
         Plan,
         Subscription,
-        Token
+        Token,
+        Transfer,
     }
 }

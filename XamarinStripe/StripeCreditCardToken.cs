@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Joe Dluzen
+ * Copyright 2011 Joe Dluzen, 2012 Xamarin, Inc.
  *
  * Author(s):
  *  Joe Dluzen (jdluzen@gmail.com)
@@ -20,7 +20,7 @@ using System;
 using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
-    public class StripeCreditCardToken {
+    public class StripeCreditCardToken : StripeObject {
         [JsonProperty (PropertyName = "created")]
         [JsonConverter (typeof(UnixDateTimeConverter))]
         public DateTime Created { get; set; }
@@ -34,14 +34,8 @@ namespace Xamarin.Payments.Stripe {
         [JsonProperty (PropertyName = "amount")]
         public int MinimumAmount { get; set; }
 
-        [JsonProperty (PropertyName = "object")]
-        public StripeObject Object { get; set; }
-
         [JsonProperty (PropertyName = "livemode")]
         public bool Live { get; set; }
-
-        [JsonProperty (PropertyName = "id")]
-        public string ID { get; set; }
 
         [JsonProperty (PropertyName = "card")]
         public StripeCard Card { get; set; }

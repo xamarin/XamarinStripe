@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2011 Xamarin, Inc., 2011 - 2012 Joe Dluzen
+ * Copyright 2011 - 2012 Xamarin, Inc., 2011 - 2012 Joe Dluzen
  *
  * Author(s):
  *  Gonzalo Paniagua Javier (gonzalo@xamarin.com)
@@ -22,7 +22,7 @@ using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
     [JsonObject (MemberSerialization.OptIn)]
-    public class StripeCharge {
+    public class StripeCharge : StripeObject {
         [JsonProperty (PropertyName = "attempted")]
         public bool Attempted { get; set; }
         [JsonProperty (PropertyName = "refunded")]
@@ -35,10 +35,10 @@ namespace Xamarin.Payments.Stripe {
         public int Amount { get; set; }
         [JsonProperty (PropertyName = "fee")]
         public int Fee { get; set; }
-        [JsonProperty (PropertyName = "id")]
-        public string ID { get; set; }
         [JsonProperty (PropertyName = "livemode")]
         public bool LiveMode { get; set; }
+        [JsonProperty (PropertyName = "disputed")]
+        public bool Disputed { get; set; }
         [JsonProperty (PropertyName = "description")]
         public string Description { get; set; }
         [JsonProperty (PropertyName = "currency")]
@@ -46,9 +46,11 @@ namespace Xamarin.Payments.Stripe {
         [JsonProperty (PropertyName = "created")]
         [JsonConverter (typeof (UnixDateTimeConverter))]
         public DateTime? Created { get; set; }
-        [JsonProperty (PropertyName = "object")]
-        public StripeObject Object { get; set; }
         [JsonProperty (PropertyName = "card")]
         public StripeCard Card { get; set; }
+        [JsonProperty (PropertyName = "customer")]
+        public string Customer { get; set; }
+        [JsonProperty (PropertyName = "fee-details")]
+        public StripeFeeDetail [] FeeDetails { get; set; }
     }
 }

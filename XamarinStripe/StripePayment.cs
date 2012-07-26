@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2011 Xamarin, Inc., 2011 - 2012 Joe Dluzen
+ * Copyright 2011 - 2012 Xamarin, Inc., 2011 - 2012 Joe Dluzen
  *
  * Author(s):
  *  Gonzalo Paniagua Javier (gonzalo@xamarin.com)
@@ -193,13 +193,13 @@ namespace Xamarin.Payments.Stripe {
             str.AppendFormat ("count={0}&", count);
             if (!String.IsNullOrEmpty (customer_id))
                 str.AppendFormat ("customer={0}&", HttpUtility.UrlEncode (customer_id));
-
+             
             str.Length--;
             string ep = String.Format ("{0}/charges?{1}", api_endpoint, str);
             string json = DoRequest (ep);
-            StripeChargeCollection charges = JsonConvert.DeserializeObject<StripeChargeCollection> (json);
+            var charges = JsonConvert.DeserializeObject<StripeCollection<StripeCharge>> (json);
             total = charges.Total;
-            return charges.Charges;
+            return charges.Data;
         }
         #endregion
         #region Refund
@@ -287,9 +287,9 @@ namespace Xamarin.Payments.Stripe {
             string str = String.Format ("offset={0}&count={1}", offset, count);
             string ep = String.Format ("{0}/customers?{1}", api_endpoint, str);
             string json = DoRequest (ep);
-            StripeCustomerCollection customers = JsonConvert.DeserializeObject<StripeCustomerCollection> (json);
+            var customers = JsonConvert.DeserializeObject<StripeCollection<StripeCustomer>> (json);
             total = customers.Total;
-            return customers.Customers;
+            return customers.Data;
         }
 
         public StripeCustomer DeleteCustomer (string customer_id)
@@ -302,6 +302,43 @@ namespace Xamarin.Payments.Stripe {
             return JsonConvert.DeserializeObject<StripeCustomer> (json);
         }
         #endregion
+        #region Events
+        public StripeEvent GetEvent (string eventId)
+        {
+            string ep = string.Format ("{0}/events/{1}", api_endpoint, HttpUtility.UrlEncode (eventId));
+            string json = DoRequest (ep);
+            return JsonConvert.DeserializeObject<StripeEvent> (json);
+        }
+
+        public List<StripeEvent> GetEvents ()
+        {
+            int dummy;
+            return GetEvents (null, 10, 0, out dummy);
+        }
+
+        public List<StripeEvent> GetEvents (string type, int count, int offset, out int total)
+        {
+            // NOTE: we aren't currnently mapping created
+            if (offset < 0)
+                throw new ArgumentOutOfRangeException ("offset");
+            if (count < 1 || count > 100)
+                throw new ArgumentOutOfRangeException ("count");
+
+            string args = String.Format ("offset={0}&count={1}", offset, count);
+
+            if (!string.IsNullOrEmpty (type))
+                args += String.Format ("&type={0}", HttpUtility.UrlEncode (type));
+
+            string ep = String.Format ("{0}/events?{1}", api_endpoint, args);
+            
+            string json = DoRequest (ep);
+            var events = JsonConvert.DeserializeObject<StripeCollection<StripeEvent>> (json);
+            total = events.Total;
+            return events.Data;
+        }
+
+        #endregion
+
         #region Tokens
         public StripeCreditCardToken CreateToken (StripeCreditCardInfo card)
         {
@@ -372,9 +409,9 @@ namespace Xamarin.Payments.Stripe {
             string str = string.Format ("count={0}&offset={1}", count, offset);
             string ep = string.Format ("{0}/plans?{1}", api_endpoint, str);
             string json = DoRequest (ep);
-            StripePlanCollection plans = JsonConvert.DeserializeObject<StripePlanCollection> (json);
+            var plans = JsonConvert.DeserializeObject<StripeCollection<StripePlan>> (json);
             total = plans.Total;
-            return plans.Plans;
+            return plans.Data;
         }
         #endregion
         #region Subscriptions
@@ -469,9 +506,9 @@ namespace Xamarin.Payments.Stripe {
             str.Length--;
             string ep = String.Format ("{0}/invoiceitems?{1}", api_endpoint, str);
             string json = DoRequest (ep);
-            StripeInvoiceItemCollection invoiceItems = JsonConvert.DeserializeObject<StripeInvoiceItemCollection> (json);
+            var invoiceItems = JsonConvert.DeserializeObject<StripeCollection<StripeInvoiceItem>> (json);
             total = invoiceItems.Total;
-            return invoiceItems.InvoiceItems;
+            return invoiceItems.Data;
         }
         #endregion
         #region Invoices
@@ -516,9 +553,9 @@ namespace Xamarin.Payments.Stripe {
             str.Length--;
             string ep = String.Format ("{0}/invoices?{1}", api_endpoint, str);
             string json = DoRequest (ep);
-            StripeInvoiceCollection invoiceItems = JsonConvert.DeserializeObject<StripeInvoiceCollection> (json);
+            var invoiceItems = JsonConvert.DeserializeObject<StripeCollection<StripeInvoice>> (json);
             total = invoiceItems.Total;
-            return invoiceItems.Invoices;
+            return invoiceItems.Data;
         }
 
         public StripeInvoice GetUpcomingInvoice (string customerId)
@@ -577,9 +614,9 @@ namespace Xamarin.Payments.Stripe {
                 throw new ArgumentOutOfRangeException ("count");
             string ep = string.Format ("{0}/coupons?offset={0}&count={1}", api_endpoint, offset, count);
             string json = DoRequest (ep);
-            StripeCouponCollection coupons = JsonConvert.DeserializeObject<StripeCouponCollection> (json);
+            var coupons = JsonConvert.DeserializeObject<StripeCollection<StripeCoupon>> (json);
             total = coupons.Total;
-            return coupons.Coupons; 
+            return coupons.Data; 
         }
         #endregion
         public int TimeoutSeconds { get; set; }

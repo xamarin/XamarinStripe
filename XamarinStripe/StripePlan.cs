@@ -21,7 +21,7 @@ using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
     [JsonObject (MemberSerialization.OptIn)]
-    public class StripePlan {
+    public class StripePlan : StripeObject {
         [JsonProperty (PropertyName = "amount")]
         public int Amount { get; set; }
 
@@ -30,9 +30,6 @@ namespace Xamarin.Payments.Stripe {
 
         [JsonProperty(PropertyName = "deleted")]
         public bool? Deleted { get; set; }
-
-        [JsonProperty(PropertyName = "id")]
-        public string ID { get; set; }
 
         [JsonProperty(PropertyName = "identifier")]
         public string Identifier { get; set; }
@@ -45,9 +42,6 @@ namespace Xamarin.Payments.Stripe {
 
         [JsonProperty (PropertyName = "name")]
         public string Name { get; set; }
-
-        [JsonProperty (PropertyName = "object")]
-        public StripeObject Object { get; set; }
 
         [JsonProperty (PropertyName = "trial_period_days")]
         public int TrialPeriod { get; set; }

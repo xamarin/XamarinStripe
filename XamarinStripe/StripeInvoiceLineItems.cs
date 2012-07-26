@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Joe Dluzen
+ * Copyright 2011 Joe Dluzen, 2012 Xamarin, Inc.
  *
  * Author(s):
  *  Joe Dluzen (jdluzen@gmail.com)
@@ -27,13 +27,15 @@ namespace Xamarin.Payments.Stripe {
         [JsonProperty (PropertyName = "invoiceitems")]
         public List<StripeInvoiceItem> InvoiceItems { get; set; }
 
+        [JsonProperty (PropertyName = "prorations")]
+        public List<StripeInvoiceItem> Prorations { get; set; }
+
         [JsonProperty (PropertyName = "subscriptions")]
         public List<StripeSubscription> Subscriptions { get; set; }
-
         #region IEnumerable[StripeInvoiceLineItem] implementation
         public IEnumerator<StripeInvoiceLineItem> GetEnumerator ()
         {
-            return ((IEnumerable<StripeInvoiceLineItem>)InvoiceItems).Concat (Subscriptions).GetEnumerator();
+            return ((IEnumerable<StripeInvoiceLineItem>)InvoiceItems).Concat (Prorations).Concat (Subscriptions).GetEnumerator();
         }
         #endregion
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Joe Dluzen
+ * Copyright 2011 Joe Dluzen, 2012 Xamarin, Inc.
  *
  * Author(s):
  *  Joe Dluzen (jdluzen@gmail.com)
@@ -22,7 +22,7 @@ using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
     [JsonObject (MemberSerialization.OptIn)]
-    public class StripeInvoice : IEnumerable<StripeInvoiceLineItem> {
+    public class StripeInvoice : StripeObject, IEnumerable<StripeInvoiceLineItem> {
         [JsonProperty (PropertyName = "created")]
         [JsonConverter (typeof (UnixDateTimeConverter))]
         public DateTime? Created { get; set; }
@@ -35,12 +35,6 @@ namespace Xamarin.Payments.Stripe {
 
         [JsonProperty (PropertyName = "lines")]
         public StripeInvoiceLineItems LineItems { get; set; }
-
-        [JsonProperty (PropertyName = "object")]
-        public StripeObject Object { get; set; }
-
-        [JsonProperty (PropertyName = "id")]
-        public string ID { get; set; }
 
         [JsonProperty (PropertyName = "attempted")]
         public bool Attempted { get; set; }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2011, 2012 Joe Dluzen
+ * Copyright 2011, 2012 Joe Dluzen, 2012 Xamarin, Inc.
  *
  * Author(s):
  *  Joe Dluzen (jdluzen@gmail.com)
@@ -41,12 +41,12 @@ namespace Xamarin.Payments.Stripe {
         [JsonConverter (typeof(UnixDateTimeConverter))]
         public DateTime? Start { get; set; }
 
-        [JsonProperty (PropertyName = "object")]
-        public StripeObject? Object { get; set; }
-
         [JsonProperty (PropertyName = "trial_start")]
         [JsonConverter (typeof(UnixDateTimeConverter))]
         public DateTime? TrialStart { get; set; }
+
+        [JsonProperty (PropertyName = "cancel_at_period_end")]
+        public bool? CancelAtPeriodEnd { get; set; }
 
         [JsonProperty (PropertyName = "trial_end")]
         [JsonConverter (typeof(UnixDateTimeConverter))]

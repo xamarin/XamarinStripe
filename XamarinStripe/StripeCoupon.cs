@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Joe Dluzen
+ * Copyright 2011 Joe Dluzen, 2012 Xamarin, Inc.
  *
  * Author(s):
  *  Joe Dluzen (jdluzen@gmail.com)
@@ -21,21 +21,15 @@ using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
     [JsonObject (MemberSerialization.OptIn)]
-    public class StripeCoupon {
+    public class StripeCoupon : StripeObject {
         [JsonProperty (PropertyName = "times_redeemed")]
         public int TimesRedeemed { get; set; }
 
         [JsonProperty (PropertyName = "livemode")]
         public bool LiveMode { get; set; }
 
-        [JsonProperty (PropertyName = "object")]
-        public StripeObject Object { get; set; }
-
         [JsonProperty (PropertyName = "duration")]
         public StripeCouponDuration Duration { get; set; }
-
-        [JsonProperty (PropertyName = "id")]
-        public string ID { get; set; }
 
         [JsonProperty (PropertyName = "percent_off")]
         public int PercentOff { get; set; }
