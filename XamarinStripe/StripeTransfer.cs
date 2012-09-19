@@ -51,6 +51,9 @@ namespace Xamarin.Payments.Stripe {
             [JsonProperty (PropertyName = "adjustment_gross")]
             public int AdjustmentGross { get; set; }
 
+            [JsonProperty (PropertyName = "charge_count")]
+            public int ChargeCount { get; set; }
+
             [JsonProperty (PropertyName = "charge_fee_details")]
             public List<StripeFeeDetail> ChargeFeeDetails { get; set; }
 
@@ -83,6 +86,6 @@ namespace Xamarin.Payments.Stripe {
         }
 
         [JsonProperty (PropertyName = "description")]
-        public int Description { get; set; }
+        public string Description { get; set; }
     }
 }
