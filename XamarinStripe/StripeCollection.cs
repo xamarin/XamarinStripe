@@ -28,7 +28,7 @@ namespace Xamarin.Payments.Stripe {
         [JsonProperty (PropertyName = "data")]
         public List<T> Data { get; set; }
 
-        #region IEnumerable[StripeInvoiceItem] implementation
+        #region IEnumerable[T] implementation
         public IEnumerator<T> GetEnumerator ()
         {
             return Data.GetEnumerator ();

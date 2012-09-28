@@ -127,14 +127,14 @@ namespace PaymentTest {
 
         static void TestGetCharges (StripePayment payment)
         {
-            List<StripeCharge> charges = payment.GetCharges (0, 10);
-            Console.WriteLine (charges.Count);
+            var charges = payment.GetCharges (0, 10);
+            Console.WriteLine (charges.Data.Count);
         }
 
         static void TestGetCustomers (StripePayment payment)
         {
-            List<StripeCustomer> customers = payment.GetCustomers (0, 10);
-            Console.WriteLine (customers.Count);
+            var customers = payment.GetCustomers (0, 10);
+            Console.WriteLine (customers.Data.Count);
         }
 
         static void TestCreateGetToken (StripePayment payment)
@@ -146,9 +146,8 @@ namespace PaymentTest {
         static void TestCreatePlanGetPlan (StripePayment payment)
         {
             StripePlan plan = CreatePlan (payment);
-            int total;
-            List<StripePlan> plans = payment.GetPlans (10, 10, out total);
-            Console.WriteLine (total);
+            var plans = payment.GetPlans (10, 10);
+            Console.WriteLine (plans.Total);
         }
 
         static StripePlan CreatePlan (StripePayment payment)
@@ -204,16 +203,15 @@ namespace PaymentTest {
             StripeInvoiceItem deleted = payment.DeleteInvoiceItem (item2.ID);
             if (!deleted.Deleted.HasValue && deleted.Deleted.Value)
                 throw new Exception ("Delete failed");
-            int total;
-            List<StripeInvoiceItem> items = payment.GetInvoiceItems (10, 10, null, out total);
-            Console.WriteLine (total);
+            var items = payment.GetInvoiceItems (10, 10, null);
+            Console.WriteLine (items.Total);
             payment.DeleteCustomer (cust.ID);
         }
 
         static void TestInvoices (StripePayment payment)
         {
-            List<StripeInvoice> invoices = payment.GetInvoices (10, 10);
-            StripeInvoice inv = payment.GetInvoice (invoices [0].ID);
+            var invoices = payment.GetInvoices (10, 10);
+            StripeInvoice inv = payment.GetInvoice (invoices.Data [0].ID);
             StripeCustomer cust = payment.CreateCustomer (new StripeCustomerInfo ());
             StripeSubscription sub = payment.Subscribe (cust.ID, new StripeSubscriptionInfo {
                 Card = GetCC ()
@@ -247,8 +245,7 @@ namespace PaymentTest {
                 Description = "Test single charge"
             });
 
-            int total;
-            List<StripeInvoice> invoices = payment.GetInvoices (0, 10, cust.ID, out total);
+            var invoices = payment.GetInvoices (0, 10, cust.ID);
             StripeInvoice upcoming = payment.GetUpcomingInvoice (cust.ID);
             payment.Unsubscribe (cust.ID, true);
             payment.DeletePlan (planInfo.ID);
