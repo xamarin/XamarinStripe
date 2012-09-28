@@ -34,7 +34,7 @@ namespace Xamarin.Payments.Stripe {
         public string Last4 { get; set; }
         [JsonProperty (PropertyName = "cvc_check")]
         public StripeCvcCheck CvcCheck { get; set; }
-        [JsonProperty (PropertyName = "address_country")]
+        [JsonProperty (PropertyName = "country")]
         public StripeObject AddressCountry { get; set; }
         [JsonProperty (PropertyName = "address_state")]
         public StripeObject AddressState { get; set; }
@@ -48,5 +48,7 @@ namespace Xamarin.Payments.Stripe {
         public string AddressZipCheck { get; set; }
         [JsonProperty (PropertyName = "name")]
         public string Name { get; set; }
+        [JsonProperty (PropertyName = "fingerprint")]
+        public string Fingerprint { get; set; }
     }
 }
