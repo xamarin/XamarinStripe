@@ -18,6 +18,7 @@
  */
 using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Xamarin.Payments.Stripe {
     public class StripeObject {
@@ -27,6 +28,7 @@ namespace Xamarin.Payments.Stripe {
         public StripeObjectType Object { get; set; }
     }
 
+    [JsonConverter (typeof (StripeEnumConverter<StripeObjectType>))]
     public enum StripeObjectType {
         Unknown,
         Card,

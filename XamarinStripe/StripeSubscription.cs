@@ -27,7 +27,7 @@ namespace Xamarin.Payments.Stripe {
         public DateTime? CurrentPeriodEnd { get; set; }
 
         [JsonProperty (PropertyName = "status")]
-        [JsonConverter (typeof(SubscriptionStatusConverter))]
+        [JsonConverter (typeof(StripeEnumConverter<StripeSubscriptionStatus>))]
         public StripeSubscriptionStatus Status { get; set; }
 
         [JsonProperty (PropertyName = "plan")]

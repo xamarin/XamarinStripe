@@ -17,8 +17,11 @@
  * limitations under the License.
  */
 using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Xamarin.Payments.Stripe {
+    [JsonConverter (typeof (StripeEnumConverter<StripeCvcCheck>))]
     public enum StripeCvcCheck {
         Unknown,
         Pass,

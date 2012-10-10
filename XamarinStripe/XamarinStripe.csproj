@@ -79,7 +79,7 @@
     <Compile Include="StripeCoupon.cs" />
     <Compile Include="StripeCouponDuration.cs" />
     <Compile Include="StripePlanInterval.cs" />
-    <Compile Include="SubscriptionStatusConverter.cs" />
+    <Compile Include="StripeEnumConverter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
