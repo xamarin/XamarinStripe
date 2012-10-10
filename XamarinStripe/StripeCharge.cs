@@ -52,5 +52,9 @@ namespace Xamarin.Payments.Stripe {
         public string Customer { get; set; }
         [JsonProperty (PropertyName = "fee-details")]
         public StripeFeeDetail [] FeeDetails { get; set; }
+        [JsonProperty (PropertyName = "failure-message")]
+        public string FailureMessage { get; set; }
+        [JsonProperty (PropertyName = "invoice")]
+        public string Invoice { get; set; }
     }
 }
