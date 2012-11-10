@@ -35,15 +35,15 @@ namespace Xamarin.Payments.Stripe {
         [JsonProperty (PropertyName = "cvc_check")]
         public StripeCvcCheck? CvcCheck { get; set; }
         [JsonProperty (PropertyName = "address_country")]
-        public StripeObject AddressCountry { get; set; }
+        public string AddressCountry { get; set; }
         [JsonProperty (PropertyName = "address_state")]
-        public StripeObject AddressState { get; set; }
+        public string AddressState { get; set; }
         [JsonProperty (PropertyName = "address_zip")]
-        public StripeObject AddressZip { get; set; }
+        public string AddressZip { get; set; }
         [JsonProperty (PropertyName = "address_line1")]
-        public StripeObject AddressLine1 { get; set; }
+        public string AddressLine1 { get; set; }
         [JsonProperty (PropertyName = "address_line2")]
-        public StripeObject AddressLine2 { get; set; }
+        public string AddressLine2 { get; set; }
         [JsonProperty (PropertyName = "address_zip_check")]
         public string AddressZipCheck { get; set; }
         [JsonProperty (PropertyName = "name")]
