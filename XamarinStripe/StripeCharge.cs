@@ -37,8 +37,13 @@ namespace Xamarin.Payments.Stripe {
         public int Fee { get; set; }
         [JsonProperty (PropertyName = "livemode")]
         public bool LiveMode { get; set; }
+        /* api changed */
+        /*
         [JsonProperty (PropertyName = "disputed")]
         public bool Disputed { get; set; }
+         */
+        [JsonProperty (PropertyName = "dispute")]
+        public StripeDispute Dispute { get; set; }
         [JsonProperty (PropertyName = "description")]
         public string Description { get; set; }
         [JsonProperty (PropertyName = "currency")]

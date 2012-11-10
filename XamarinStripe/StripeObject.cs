@@ -36,6 +36,7 @@ namespace Xamarin.Payments.Stripe {
         Coupon,
         Customer,
         Discount,
+        Dispute,
         Event,
         InvoiceItem,
         Invoice,

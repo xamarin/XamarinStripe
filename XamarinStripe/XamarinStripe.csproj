@@ -43,8 +43,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StripeDisputeReason.cs" />
     <Compile Include="StripeCollection.cs" />
     <Compile Include="StripeDiscount.cs" />
+    <Compile Include="StripeDispute.cs" />
+    <Compile Include="StripeDisputeStatus.cs" />
     <Compile Include="StripeEvent.cs" />
     <Compile Include="StripeFeeDetail.cs" />
     <Compile Include="DateTimeExtensions.cs" />
