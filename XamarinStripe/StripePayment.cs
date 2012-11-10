@@ -183,6 +183,19 @@ namespace Xamarin.Payments.Stripe {
             return JsonConvert.DeserializeObject<StripeCollection<StripeCharge>> (json);
         }
 
+        public StripeDispute UpdateDispute (string charge_id, string evidence)
+        {
+            if (String.IsNullOrEmpty (charge_id))
+                throw new ArgumentNullException ("charge_id");
+
+            if (String.IsNullOrEmpty (charge_id))
+                throw new ArgumentNullException ("evidence");
+
+            string ep = String.Format ("{0}/charges/{1}/disput", api_endpoint, HttpUtility.UrlEncode (charge_id), HttpUtility.UrlEncode (evidence));
+            string json = DoRequest (ep, "POST", String.Format ("evidence={0}", HttpUtility.UrlEncode (evidence)));
+            return JsonConvert.DeserializeObject<StripeDispute> (json);
+        }
+
         #endregion
         #region Refund
         public StripeCharge Refund (string charge_id)
