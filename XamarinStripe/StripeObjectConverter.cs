@@ -39,6 +39,8 @@ namespace Xamarin.Payments.Stripe {
                 return new StripeEvent ();
             case "discount":
                 return new StripeDiscount ();
+            case "dispute":
+                return new StripeDispute ();
             case "coupon":
                 return new StripeCoupon ();
             case "customer":
