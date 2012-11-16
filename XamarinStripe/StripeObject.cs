@@ -22,10 +22,13 @@ using Newtonsoft.Json.Converters;
 
 namespace Xamarin.Payments.Stripe {
     public class StripeObject {
-        [JsonProperty (PropertyName = "id")] 
-        public string ID { get; set; }
         [JsonProperty (PropertyName = "object")]
         public StripeObjectType Object { get; set; }
+    }
+
+    public class StripeId : StripeObject {
+        [JsonProperty (PropertyName = "id")] 
+        public string ID { get; set; }
     }
 
     [JsonConverter (typeof (StripeEnumConverter<StripeObjectType>))]

@@ -21,7 +21,7 @@ using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
     [JsonObject (MemberSerialization.OptIn)]
-    public class StripeDiscount : StripeObject {
+    public class StripeDiscount : StripeId {
         [JsonProperty (PropertyName = "customer")]
         public string Customer { get; set; }
 

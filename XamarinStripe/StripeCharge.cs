@@ -22,7 +22,7 @@ using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
     [JsonObject (MemberSerialization.OptIn)]
-    public class StripeCharge : StripeObject {
+    public class StripeCharge : StripeId {
         [JsonProperty (PropertyName = "attempted")]
         public bool Attempted { get; set; }
         [JsonProperty (PropertyName = "refunded")]

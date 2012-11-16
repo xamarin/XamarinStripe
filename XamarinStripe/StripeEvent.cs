@@ -22,7 +22,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
 namespace Xamarin.Payments.Stripe {
-    public class StripeEvent : StripeObject {
+    public class StripeEvent : StripeId {
         [JsonProperty (PropertyName = "livemode")]
         public bool LiveMode { get; set; }
 

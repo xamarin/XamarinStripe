@@ -20,7 +20,7 @@ using System;
 using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
-    public class StripeCreditCardToken : StripeObject {
+    public class StripeCreditCardToken : StripeId {
         [JsonProperty (PropertyName = "created")]
         [JsonConverter (typeof(UnixDateTimeConverter))]
         public DateTime Created { get; set; }

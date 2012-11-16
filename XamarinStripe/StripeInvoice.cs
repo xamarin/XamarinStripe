@@ -22,7 +22,7 @@ using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
     [JsonObject (MemberSerialization.OptIn)]
-    public class StripeInvoice : StripeObject, IEnumerable<StripeInvoiceLineItem> {
+    public class StripeInvoice : StripeId, IEnumerable<StripeInvoiceLineItem> {
         [JsonProperty (PropertyName = "created")]
         [JsonConverter (typeof (UnixDateTimeConverter))]
         public DateTime? Created { get; set; }

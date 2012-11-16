@@ -21,7 +21,7 @@ using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
     [JsonObject (MemberSerialization.OptIn)]
-    public class StripeCustomer : StripeObject {
+    public class StripeCustomer : StripeId {
 
         [JsonProperty (PropertyName = "livemode")]
         public bool LiveMode { get; set; }

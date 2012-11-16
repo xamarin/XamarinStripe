@@ -5,9 +5,6 @@ using System.Text;
 using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
-    // there is no id in a dispute object but we are
-    // going to make it a StripeObject for now so that we can
-    // use the existing event deserialization
     public class StripeDispute : StripeObject {
         [JsonProperty("status")]
         public StripeDisputeStatus Status { get; set; }
