@@ -249,7 +249,7 @@ namespace PaymentTest {
             StripeInvoice upcoming = payment.GetUpcomingInvoice (cust.ID);
             payment.Unsubscribe (cust.ID, true);
             payment.DeletePlan (planInfo.ID);
-            foreach (StripeInvoiceLineItem line in upcoming) {
+            foreach (StripeLineItem line in upcoming) {
                 Console.WriteLine ("{0} for type {1}", line.Amount, line.GetType ());
             }
 

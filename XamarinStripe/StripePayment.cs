@@ -108,6 +108,7 @@ namespace Xamarin.Payments.Stripe {
                 str.Length--;
             return str;
         }
+
         #endregion
         #region Charge
         public StripeCharge Charge (int amount_cents, string currency, string customer, string description)
@@ -464,7 +465,7 @@ namespace Xamarin.Payments.Stripe {
             string json = DoRequest (ep);
             return JsonConvert.DeserializeObject<StripeInvoice> (json);
         }
-
+        
         public StripeCollection<StripeInvoice> GetInvoices (int offset = 0, int count = 10, string customerId = null)
         {
             if (offset < 0)
@@ -491,6 +492,15 @@ namespace Xamarin.Payments.Stripe {
             string ep = String.Format ("{0}/invoices/upcoming?customer={1}", api_endpoint, customerId);
             string json = DoRequest (ep);
             return JsonConvert.DeserializeObject<StripeInvoice> (json);
+        }
+
+        public StripeCollection<StripeLineItem> GetInvoiceLines (string invoiceId)
+        {
+            if (string.IsNullOrEmpty (invoiceId))
+                throw new ArgumentNullException ("invoiceId");
+            string ep = string.Format ("{0}/invoices/{1}/lines", api_endpoint, invoiceId);
+            string json = DoRequest (ep);
+            return JsonConvert.DeserializeObject<StripeCollection<StripeLineItem>> (json);
         }
         #endregion
         #region Coupons

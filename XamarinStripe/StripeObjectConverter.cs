@@ -45,6 +45,8 @@ namespace Xamarin.Payments.Stripe {
                 return new StripeCoupon ();
             case "customer":
                 return new StripeCustomer ();
+            case "line_item":
+                return new StripeLineItem ();
             case "plan":
                 return new StripePlan ();
             case "token":

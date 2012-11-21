@@ -29,6 +29,9 @@ namespace Xamarin.Payments.Stripe {
         [JsonConverter (typeof (UnixDateTimeConverter))]
         public DateTime Date { get; set; }
 
+        [JsonProperty (PropertyName = "transactions")]
+        public StripeCollection<StripeLineItem> Transactions { get; set; }
+
         [JsonProperty (PropertyName = "other_transfers")]
         public List<string> OtherTransfers { get; set; }
 

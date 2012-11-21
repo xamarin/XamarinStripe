@@ -22,7 +22,7 @@ using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
     [JsonObject (MemberSerialization.OptIn)]
-    public class StripeInvoice : StripeId, IEnumerable<StripeInvoiceLineItem> {
+    public class StripeInvoice : StripeId, IEnumerable<StripeLineItem> {
         [JsonProperty (PropertyName = "created")]
         [JsonConverter (typeof (UnixDateTimeConverter))]
         public DateTime? Created { get; set; }
@@ -33,8 +33,13 @@ namespace Xamarin.Payments.Stripe {
         [JsonProperty (PropertyName = "total")]
         public int Total { get; set; }
 
+
         [JsonProperty (PropertyName = "lines")]
+#if true //NEW_INVOICES
+        public StripeCollection<StripeLineItem> LineItems { get; set; }
+#else
         public StripeInvoiceLineItems LineItems { get; set; }
+#endif
 
         [JsonProperty (PropertyName = "attempted")]
         public bool Attempted { get; set; }
@@ -61,7 +66,7 @@ namespace Xamarin.Payments.Stripe {
         public DateTime End { get; set; }
 
         #region IEnumerable[StripeInvoiceLineItem] implementation
-        public IEnumerator<StripeInvoiceLineItem> GetEnumerator ()
+        public IEnumerator<StripeLineItem> GetEnumerator ()
         {
             return LineItems.GetEnumerator ();
         }

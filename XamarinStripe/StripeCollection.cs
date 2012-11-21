@@ -22,10 +22,13 @@ using Newtonsoft.Json;
 namespace Xamarin.Payments.Stripe {
     [JsonObject (MemberSerialization.OptIn)]
     public class StripeCollection<T> : IEnumerable<T> {
-        [JsonProperty (PropertyName = "count")]
+        [JsonProperty ("url")]
+        public string Url { get; set; }
+
+        [JsonProperty ("count")]
         public int Total { get; set; }
 
-        [JsonProperty (PropertyName = "data")]
+        [JsonProperty ("data")]
         public List<T> Data { get; set; }
 
         #region IEnumerable[T] implementation

@@ -21,7 +21,7 @@ using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
     [JsonObject (MemberSerialization.OptIn)]
-    public class StripeSubscription : StripeInvoiceLineItem {
+    public class StripeSubscription: StripeObject {
         [JsonProperty (PropertyName = "current_period_end")]
         [JsonConverter (typeof(UnixDateTimeConverter))]
         public DateTime? CurrentPeriodEnd { get; set; }
@@ -62,8 +62,5 @@ namespace Xamarin.Payments.Stripe {
 
         [JsonProperty (PropertyName = "customer")]
         public string CustomerID { get; set; }
-
-        [JsonProperty (PropertyName = "period")]
-        public StripePeriod Period { get; set; }
     }
 }

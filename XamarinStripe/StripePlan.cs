@@ -22,6 +22,9 @@ using Newtonsoft.Json;
 namespace Xamarin.Payments.Stripe {
     [JsonObject (MemberSerialization.OptIn)]
     public class StripePlan : StripeId {
+        [JsonProperty (PropertyName = "livemode")]
+        public bool LiveMode { get; set; }
+
         [JsonProperty (PropertyName = "amount")]
         public int Amount { get; set; }
 
@@ -36,9 +39,6 @@ namespace Xamarin.Payments.Stripe {
 
         [JsonProperty (PropertyName = "interval")]
         public StripePlanInterval Interval { get; set; }
-
-        [JsonProperty (PropertyName = "livemode")]
-        public bool LiveMode { get; set; }
 
         [JsonProperty (PropertyName = "name")]
         public string Name { get; set; }

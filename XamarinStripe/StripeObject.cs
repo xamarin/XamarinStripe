@@ -43,6 +43,7 @@ namespace Xamarin.Payments.Stripe {
         Event,
         InvoiceItem,
         Invoice,
+        LineItem,
         Plan,
         Subscription,
         Token,

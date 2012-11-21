@@ -23,19 +23,20 @@ using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
     [JsonObject (MemberSerialization.OptIn)]
-    public class StripeInvoiceLineItems : IEnumerable<StripeInvoiceLineItem> {
+    public class StripeInvoiceLineItems : IEnumerable<StripeLineItem> {
         [JsonProperty (PropertyName = "invoiceitems")]
-        public List<StripeInvoiceItem> InvoiceItems { get; set; }
+        public List<StripeLineItem> InvoiceItems { get; set; }
 
         [JsonProperty (PropertyName = "prorations")]
-        public List<StripeInvoiceItem> Prorations { get; set; }
+        public List<StripeLineItem> Prorations { get; set; }
 
         [JsonProperty (PropertyName = "subscriptions")]
-        public List<StripeSubscription> Subscriptions { get; set; }
-        #region IEnumerable[StripeInvoiceLineItem] implementation
-        public IEnumerator<StripeInvoiceLineItem> GetEnumerator ()
+        public List<StripeLineItem> Subscriptions { get; set; }
+
+        #region IEnumerable[StripeLineItem] implementation
+        public IEnumerator<StripeLineItem> GetEnumerator ()
         {
-            return ((IEnumerable<StripeInvoiceLineItem>)InvoiceItems).Concat (Prorations).Concat (Subscriptions).GetEnumerator();
+            return ((IEnumerable<StripeLineItem>)InvoiceItems).Concat (Prorations).Concat (Subscriptions).GetEnumerator();
         }
         #endregion
 
