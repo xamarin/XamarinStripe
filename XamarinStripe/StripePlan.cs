@@ -31,8 +31,11 @@ namespace Xamarin.Payments.Stripe {
         [JsonProperty (PropertyName = "currency")]
         public string Currency { get; set; }
 
+        // deleted was deleted
+        /*
         [JsonProperty(PropertyName = "deleted")]
         public bool? Deleted { get; set; }
+        */
 
         [JsonProperty(PropertyName = "identifier")]
         public string Identifier { get; set; }

@@ -23,47 +23,55 @@ using Newtonsoft.Json;
 namespace Xamarin.Payments.Stripe {
     [JsonObject (MemberSerialization.OptIn)]
     public class StripeInvoice : StripeId, IEnumerable<StripeLineItem> {
-        [JsonProperty (PropertyName = "created")]
-        [JsonConverter (typeof (UnixDateTimeConverter))]
-        public DateTime? Created { get; set; }
-
-        [JsonProperty (PropertyName = "subtotal")]
+        [JsonProperty ("subtotal")]
         public int Subtotal { get; set; }
 
         [JsonProperty (PropertyName = "total")]
         public int Total { get; set; }
 
-
         [JsonProperty (PropertyName = "lines")]
-#if true //NEW_INVOICES
+#if NEW_INVOICES
         public StripeCollection<StripeLineItem> LineItems { get; set; }
 #else
         public StripeInvoiceLineItems LineItems { get; set; }
 #endif
 
-        [JsonProperty (PropertyName = "attempted")]
+        [JsonProperty ("attempted")]
         public bool Attempted { get; set; }
 
-        [JsonProperty (PropertyName = "closed")]
+        [JsonProperty ("attempt_count")]
+        int AttemptCount { get; set; }
+
+        [JsonProperty ("closed")]
         public bool Closed { get; set; }
 
-        [JsonProperty (PropertyName = "customer")]
+        [JsonProperty ("customer")]
         public string CustomerID { get; set; }
 
-        [JsonProperty (PropertyName = "date")]
+        [JsonProperty ("date")]
         [JsonConverter (typeof (UnixDateTimeConverter))]
         public DateTime Date { get; set; }
 
-        [JsonProperty (PropertyName = "paid")]
+        [JsonProperty ("paid")]
         public bool Paid { get; set; }
 
-        [JsonProperty (PropertyName = "period_start")]
+        [JsonProperty ("period_start")]
         [JsonConverter (typeof (UnixDateTimeConverter))]
         public DateTime Start { get; set; }
 
-        [JsonProperty (PropertyName = "period_end")]
+        [JsonProperty ("period_end")]
         [JsonConverter (typeof (UnixDateTimeConverter))]
         public DateTime End { get; set; }
+
+        [JsonProperty ("starting_balance")]
+        public int StartingBalance { get; set; }
+
+        [JsonProperty ("ending_balance")]
+        public int? EndingBalance { get; set; }
+
+        [JsonProperty ("next_payment_attempt")]
+        [JsonConverter (typeof (UnixDateTimeConverter))]
+        public DateTime NextPaymentAttempt { get; set; }
 
         #region IEnumerable[StripeInvoiceLineItem] implementation
         public IEnumerator<StripeLineItem> GetEnumerator ()

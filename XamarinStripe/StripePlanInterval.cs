@@ -17,8 +17,10 @@
  * limitations under the License.
  */
 using System;
+using Newtonsoft.Json;
 
 namespace Xamarin.Payments.Stripe {
+    [JsonConverter (typeof (StripeEnumConverter<StripePlanInterval>))]
     public enum StripePlanInterval {
         Month,
         Year
