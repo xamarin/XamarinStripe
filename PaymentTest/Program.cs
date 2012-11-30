@@ -27,12 +27,12 @@ namespace PaymentTest {
         static void Main (string [] args)
         {
             StripePayment payment = new StripePayment ("vtUQeOtUnYr7PGCLQ96Ul4zqpDUO4sOE");
-            //TestSimpleCharge (payment);
+            TestSimpleCharge (payment);
             //TestPartialRefund (payment);
             //TestCustomer (payment);
-            //TestCustomerAndCharge (payment);
+            TestCustomerAndCharge (payment);
             //TestGetCharges (payment);
-            //TestGetCustomers (payment);
+            TestGetCustomers (payment);
             //TestCreateGetToken (payment);
             //TestCreatePlanGetPlan (payment);
             //TestCreateSubscription (payment);
@@ -47,7 +47,7 @@ namespace PaymentTest {
             StripeCreditCardInfo cc = new StripeCreditCardInfo ();
             cc.CVC = "1234";
             cc.ExpirationMonth = 6;
-            cc.ExpirationYear = 2012;
+            cc.ExpirationYear = 2015;
             cc.Number = "4242424242424242";
             return cc;
         }
