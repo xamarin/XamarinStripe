@@ -38,7 +38,7 @@ namespace Xamarin.Payments.Stripe {
         public StripePayment (string api_key)
         {
             credential = new NetworkCredential (api_key, "");
-            TimeoutSeconds = 30;
+            TimeoutSeconds = 80;
         }
         #region Shared
         protected virtual WebRequest SetupRequest (string method, string url)
