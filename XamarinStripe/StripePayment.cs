@@ -63,6 +63,12 @@ namespace Xamarin.Payments.Stripe {
             }
         }
 
+        protected virtual T DoRequest<T> (string endpoint, string method = "GET", string body = null)
+        {
+            var json = DoRequest (endpoint, method, body);
+            return JsonConvert.DeserializeObject<T> (json);
+        }
+
         protected virtual string DoRequest (string endpoint)
         {
             return DoRequest (endpoint, "GET", null);
@@ -151,8 +157,7 @@ namespace Xamarin.Payments.Stripe {
             }
             str.Length--;
             string ep = String.Format ("{0}/charges", api_endpoint);
-            string json = DoRequest (ep, "POST", str.ToString ());
-            return JsonConvert.DeserializeObject<StripeCharge> (json);
+            return DoRequest<StripeCharge> (ep, "POST", str.ToString ());
         }
 
         public StripeCharge GetCharge (string charge_id)
@@ -161,8 +166,7 @@ namespace Xamarin.Payments.Stripe {
                 throw new ArgumentNullException ("charge_id");
 
             string ep = String.Format ("{0}/charges/{1}", api_endpoint, HttpUtility.UrlEncode (charge_id));
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeCharge> (json);
+            return DoRequest<StripeCharge> (ep);
         }
 
         public StripeCollection<StripeCharge> GetCharges (int offset = 0, int count = 10, string customer_id = null)
@@ -180,8 +184,7 @@ namespace Xamarin.Payments.Stripe {
              
             str.Length--;
             string ep = String.Format ("{0}/charges?{1}", api_endpoint, str);
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeCollection<StripeCharge>> (json);
+            return DoRequest<StripeCollection<StripeCharge>> (ep);
         }
 
         public StripeDispute UpdateDispute (string charge_id, string evidence)
@@ -193,8 +196,7 @@ namespace Xamarin.Payments.Stripe {
                 throw new ArgumentNullException ("evidence");
 
             string ep = String.Format ("{0}/charges/{1}/disput", api_endpoint, HttpUtility.UrlEncode (charge_id), HttpUtility.UrlEncode (evidence));
-            string json = DoRequest (ep, "POST", String.Format ("evidence={0}", HttpUtility.UrlEncode (evidence)));
-            return JsonConvert.DeserializeObject<StripeDispute> (json);
+            return DoRequest<StripeDispute> (ep, "POST", String.Format ("evidence={0}", HttpUtility.UrlEncode (evidence)));
         }
 
         #endregion
@@ -205,8 +207,7 @@ namespace Xamarin.Payments.Stripe {
                 throw new ArgumentNullException ("charge_id");
 
             string ep = String.Format ("{0}/charges/{1}/refund", api_endpoint, HttpUtility.UrlEncode (charge_id));
-            string json = DoRequest (ep, "POST", null);
-            return JsonConvert.DeserializeObject<StripeCharge> (json);
+            return DoRequest<StripeCharge> (ep, "POST", null);
         }
 
         public StripeCharge Refund (string charge_id, int amount)
@@ -217,8 +218,7 @@ namespace Xamarin.Payments.Stripe {
                 throw new ArgumentException ("Amount must be greater than zero.", "amount");
 
             string ep = String.Format ("{0}/charges/{1}/refund?amount={2}", api_endpoint, HttpUtility.UrlEncode (charge_id), amount);
-            string json = DoRequest (ep, "POST", null);
-            return JsonConvert.DeserializeObject<StripeCharge> (json);
+            return DoRequest<StripeCharge> (ep, "POST", null);
         }
         #endregion
         #region Customer
@@ -230,8 +230,7 @@ namespace Xamarin.Payments.Stripe {
             if (id != null)
                 format = "{0}/customers/{1}"; // Update
             string ep = String.Format (format, api_endpoint, HttpUtility.UrlEncode (id));
-            string json = DoRequest (ep, "POST", str.ToString ());
-            return JsonConvert.DeserializeObject<StripeCustomer> (json);
+            return DoRequest<StripeCustomer> (ep, "POST", str.ToString ());
         }
 
         public StripeCustomer CreateCustomer (StripeCustomerInfo customer)
@@ -258,8 +257,7 @@ namespace Xamarin.Payments.Stripe {
                 throw new ArgumentNullException ("customer_id");
 
             string ep = String.Format ("{0}/customers/{1}", api_endpoint, HttpUtility.UrlEncode (customer_id));
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeCustomer> (json);
+            return DoRequest<StripeCustomer> (ep);
         }
 
         public StripeCollection<StripeCustomer> GetCustomers (int offset = 0, int count = 10)
@@ -271,8 +269,7 @@ namespace Xamarin.Payments.Stripe {
 
             string str = String.Format ("offset={0}&count={1}", offset, count);
             string ep = String.Format ("{0}/customers?{1}", api_endpoint, str);
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeCollection<StripeCustomer>> (json);
+            return DoRequest<StripeCollection<StripeCustomer>> (ep);
         }
 
         public StripeCustomer DeleteCustomer (string customer_id)
@@ -281,16 +278,14 @@ namespace Xamarin.Payments.Stripe {
                 throw new ArgumentNullException ("customer_id");
 
             string ep = String.Format ("{0}/customers/{1}", api_endpoint, HttpUtility.UrlEncode (customer_id));
-            string json = DoRequest (ep, "DELETE", null);
-            return JsonConvert.DeserializeObject<StripeCustomer> (json);
+            return DoRequest<StripeCustomer> (ep, "DELETE", null);
         }
         #endregion
         #region Events
         public StripeEvent GetEvent (string eventId)
         {
             string ep = string.Format ("{0}/events/{1}", api_endpoint, HttpUtility.UrlEncode (eventId));
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeEvent> (json);
+            return DoRequest<StripeEvent> (ep);
         }
 
         public StripeCollection<StripeEvent> GetEvents (int offset = 0, int count = 10, string type = null)
@@ -307,9 +302,7 @@ namespace Xamarin.Payments.Stripe {
                 args += String.Format ("&type={0}", HttpUtility.UrlEncode (type));
 
             string ep = String.Format ("{0}/events?{1}", api_endpoint, args);
-            
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeCollection<StripeEvent>> (json);
+            return DoRequest<StripeCollection<StripeEvent>> (ep);
         }
 
         #endregion
@@ -322,8 +315,7 @@ namespace Xamarin.Payments.Stripe {
             StringBuilder str = UrlEncode (card);
 
             string ep = string.Format ("{0}/tokens", api_endpoint);
-            string json = DoRequest (ep, "POST", str.ToString ());
-            return JsonConvert.DeserializeObject<StripeCreditCardToken> (json);
+            return DoRequest<StripeCreditCardToken> (ep, "POST", str.ToString ());
         }
 
         public StripeCreditCardToken GetToken (string tokenId)
@@ -332,8 +324,7 @@ namespace Xamarin.Payments.Stripe {
                 throw new ArgumentNullException (tokenId);
 
             string ep = string.Format ("{0}/tokens/{1}", api_endpoint, HttpUtility.UrlEncode (tokenId));
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeCreditCardToken> (json);
+            return DoRequest<StripeCreditCardToken> (ep);
         }
         #endregion
         #region Plans
@@ -344,8 +335,7 @@ namespace Xamarin.Payments.Stripe {
             StringBuilder str = UrlEncode (plan);
 
             string ep = string.Format ("{0}/plans", api_endpoint);
-            string json = DoRequest (ep, "POST", str.ToString ());
-            return JsonConvert.DeserializeObject<StripePlan> (json);
+            return DoRequest<StripePlan> (ep, "POST", str.ToString ());
         }
 
         public StripePlan GetPlan (string planId)
@@ -354,8 +344,7 @@ namespace Xamarin.Payments.Stripe {
                 throw new ArgumentNullException ("id");
 
             string ep = string.Format ("{0}/plans/{1}", api_endpoint, HttpUtility.UrlEncode (planId));
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripePlan> (json);
+            return DoRequest<StripePlan> (ep);
         }
 
         public StripePlan DeletePlan (string planId)
@@ -364,16 +353,14 @@ namespace Xamarin.Payments.Stripe {
                 throw new ArgumentNullException ("id");
 
             string ep = string.Format ("{0}/plans/{1}", api_endpoint, HttpUtility.UrlEncode (planId));
-            string json = DoRequest (ep, "DELETE", null);
-            return JsonConvert.DeserializeObject<StripePlan> (json);
+            return DoRequest<StripePlan> (ep, "DELETE", null);
         }
 
         public StripeCollection<StripePlan> GetPlans (int offset = 0, int count = 10)
         {
             string str = string.Format ("count={0}&offset={1}", count, offset);
             string ep = string.Format ("{0}/plans?{1}", api_endpoint, str);
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeCollection<StripePlan>> (json);
+            return DoRequest<StripeCollection<StripePlan>> (ep);
         }
         #endregion
         #region Subscriptions
@@ -381,8 +368,7 @@ namespace Xamarin.Payments.Stripe {
         {
             StringBuilder str = UrlEncode (subscription);
             string ep = string.Format (subscription_path, api_endpoint, HttpUtility.UrlEncode (customerId));
-            string json = DoRequest (ep, "POST", str.ToString ());
-            return JsonConvert.DeserializeObject<StripeSubscription> (json);
+            return DoRequest<StripeSubscription> (ep, "POST", str.ToString ());
         }
 
         public StripeSubscription GetSubscription (string customerId)
@@ -390,15 +376,13 @@ namespace Xamarin.Payments.Stripe {
             if (string.IsNullOrEmpty (customerId))
                 throw new ArgumentNullException ("customerId");
             string ep = string.Format (subscription_path, api_endpoint, HttpUtility.UrlEncode (customerId));
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeSubscription> (json);
+            return DoRequest<StripeSubscription>(ep);
         }
 
         public StripeSubscription Unsubscribe (string customerId, bool atPeriodEnd)
         {
             string ep = string.Format (subscription_path + "?at_period_end={2}", api_endpoint, HttpUtility.UrlEncode (customerId), atPeriodEnd.ToString (CultureInfo.InvariantCulture).ToLowerInvariant ());
-            string json = DoRequest (ep, "DELETE", null);
-            return JsonConvert.DeserializeObject<StripeSubscription> (json);
+            return DoRequest<StripeSubscription> (ep, "DELETE", null);
         }
         #endregion
         #region Invoice items
@@ -408,8 +392,7 @@ namespace Xamarin.Payments.Stripe {
                 throw new ArgumentNullException ("item.CustomerID");
             StringBuilder str = UrlEncode (item);
             string ep = string.Format ("{0}/invoiceitems", api_endpoint);
-            string json = DoRequest (ep, "POST", str.ToString ());
-            return JsonConvert.DeserializeObject<StripeInvoiceItem> (json);
+            return DoRequest<StripeInvoiceItem> (ep, "POST", str.ToString ());
         }
 
         public StripeInvoiceItem GetInvoiceItem (string invoiceItemId)
@@ -417,23 +400,20 @@ namespace Xamarin.Payments.Stripe {
             if (string.IsNullOrEmpty (invoiceItemId))
                 throw new ArgumentNullException ("invoiceItemId");
             string ep = string.Format ("{0}/invoiceitems/{1}", api_endpoint, invoiceItemId);
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeInvoiceItem> (json);
+            return DoRequest<StripeInvoiceItem> (ep);
         }
 
         public StripeInvoiceItem UpdateInvoiceItem (string invoiceItemId, StripeInvoiceItemInfo item)
         {
             StringBuilder str = UrlEncode (item);
             string ep = string.Format ("{0}/invoiceitems/{1}", api_endpoint, invoiceItemId);
-            string json = DoRequest (ep, "POST", str.ToString ());
-            return JsonConvert.DeserializeObject<StripeInvoiceItem> (json);
+            return DoRequest<StripeInvoiceItem> (ep, "POST", str.ToString ());
         }
 
         public StripeInvoiceItem DeleteInvoiceItem (string invoiceItemId)
         {
             string ep = string.Format ("{0}/invoiceitems/{1}", api_endpoint, invoiceItemId);
-            string json = DoRequest (ep, "DELETE", null);
-            return JsonConvert.DeserializeObject<StripeInvoiceItem> (json);
+            return DoRequest<StripeInvoiceItem> (ep, "DELETE", null);
         }
 
         public StripeCollection<StripeInvoiceItem> GetInvoiceItems (int offset = 0, int count = 10, string customerId = null)
@@ -451,8 +431,7 @@ namespace Xamarin.Payments.Stripe {
 
             str.Length--;
             string ep = String.Format ("{0}/invoiceitems?{1}", api_endpoint, str);
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeCollection<StripeInvoiceItem>> (json);
+            return DoRequest<StripeCollection<StripeInvoiceItem>> (ep);
         }
 
         #endregion
@@ -462,8 +441,7 @@ namespace Xamarin.Payments.Stripe {
             if (string.IsNullOrEmpty (invoiceId))
                 throw new ArgumentNullException ("invoiceId");
             string ep = string.Format ("{0}/invoices/{1}", api_endpoint, invoiceId);
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeInvoice> (json);
+            return DoRequest<StripeInvoice> (ep);
         }
         
         public StripeCollection<StripeInvoice> GetInvoices (int offset = 0, int count = 10, string customerId = null)
@@ -481,8 +459,7 @@ namespace Xamarin.Payments.Stripe {
 
             str.Length--;
             string ep = String.Format ("{0}/invoices?{1}", api_endpoint, str);
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeCollection<StripeInvoice>> (json);
+            return DoRequest<StripeCollection<StripeInvoice>>(ep);
         }
 
         public StripeInvoice GetUpcomingInvoice (string customerId)
@@ -490,8 +467,7 @@ namespace Xamarin.Payments.Stripe {
             if (string.IsNullOrEmpty (customerId))
                 throw new ArgumentOutOfRangeException ("customerId");
             string ep = String.Format ("{0}/invoices/upcoming?customer={1}", api_endpoint, customerId);
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeInvoice> (json);
+            return DoRequest<StripeInvoice> (ep);
         }
 
         public StripeCollection<StripeLineItem> GetInvoiceLines (string invoiceId)
@@ -499,8 +475,7 @@ namespace Xamarin.Payments.Stripe {
             if (string.IsNullOrEmpty (invoiceId))
                 throw new ArgumentNullException ("invoiceId");
             string ep = string.Format ("{0}/invoices/{1}/lines", api_endpoint, invoiceId);
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeCollection<StripeLineItem>> (json);
+            return DoRequest<StripeCollection<StripeLineItem>> (ep);
         }
         #endregion
         #region Coupons
@@ -514,8 +489,7 @@ namespace Xamarin.Payments.Stripe {
                 throw new ArgumentException ("MonthsForDuration must be greater than 1 when Duration = Repeating");
             StringBuilder str = UrlEncode (coupon);
             string ep = string.Format ("{0}/coupons", api_endpoint);
-            string json = DoRequest (ep, "POST", str.ToString ());
-            return JsonConvert.DeserializeObject<StripeCoupon> (json);
+            return DoRequest<StripeCoupon> (ep, "POST", str.ToString ());
         }
 
         public StripeCoupon GetCoupon (string couponId)
@@ -523,8 +497,7 @@ namespace Xamarin.Payments.Stripe {
             if (string.IsNullOrEmpty (couponId))
                 throw new ArgumentNullException ("couponId");
             string ep = string.Format ("{0}/coupons/{1}", api_endpoint, couponId);
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeCoupon> (json);
+            return DoRequest<StripeCoupon> (ep);
         }
 
         public StripeCoupon DeleteCoupon (string couponId)
@@ -532,8 +505,7 @@ namespace Xamarin.Payments.Stripe {
             if (string.IsNullOrEmpty (couponId))
                 throw new ArgumentNullException ("couponId");
             string ep = string.Format ("{0}/coupons/{1}", api_endpoint, couponId);
-            string json = DoRequest (ep, "DELETE", null);
-            return JsonConvert.DeserializeObject<StripeCoupon> (json);
+            return DoRequest<StripeCoupon> (ep, "DELETE", null);
         }
 
         public StripeCollection<StripeCoupon> GetCoupons (int offset = 0, int count = 10)
@@ -543,8 +515,7 @@ namespace Xamarin.Payments.Stripe {
             if (count > 100)
                 throw new ArgumentOutOfRangeException ("count");
             string ep = string.Format ("{0}/coupons?offset={0}&count={1}", api_endpoint, offset, count);
-            string json = DoRequest (ep);
-            return JsonConvert.DeserializeObject<StripeCollection<StripeCoupon>> (json);
+            return DoRequest<StripeCollection<StripeCoupon>> (ep);
         }
         #endregion
         public int TimeoutSeconds { get; set; }
