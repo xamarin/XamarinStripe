@@ -71,7 +71,7 @@ namespace Xamarin.Payments.Stripe {
 
         [JsonProperty ("next_payment_attempt")]
         [JsonConverter (typeof (UnixDateTimeConverter))]
-        public DateTime NextPaymentAttempt { get; set; }
+        public DateTime? NextPaymentAttempt { get; set; }
 
         #region IEnumerable[StripeInvoiceLineItem] implementation
         public IEnumerator<StripeLineItem> GetEnumerator ()
