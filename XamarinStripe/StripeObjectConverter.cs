@@ -33,6 +33,8 @@ namespace Xamarin.Payments.Stripe {
         {
             var type = (string) jobj.Property ("object");
             switch (type) {
+            case "account":
+                return new StripeAccount ();
             case "charge":
                 return new StripeCharge ();
             case "event":

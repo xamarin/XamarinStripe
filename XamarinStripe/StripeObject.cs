@@ -34,6 +34,7 @@ namespace Xamarin.Payments.Stripe {
     [JsonConverter (typeof (StripeEnumConverter<StripeObjectType>))]
     public enum StripeObjectType {
         Unknown,
+        Account,
         Card,
         Charge,
         Coupon,
