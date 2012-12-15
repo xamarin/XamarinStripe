@@ -8,7 +8,7 @@ namespace Xamarin.Payments.Stripe {
     /* duplicate, fraudulent, subscription_canceled, product_unacceptable, product_not_received, unrecognized, credit_not_processed, general */
     [JsonConverter (typeof (StripeEnumConverter<StripeDisputeReason>))]
     public enum StripeDisputeReason {
-        Duplucate,
+        Duplicate,
         Fraudulent,
         SubscriptionCanceled,
         ProductUnacceptable,

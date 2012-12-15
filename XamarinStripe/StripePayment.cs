@@ -192,10 +192,10 @@ namespace Xamarin.Payments.Stripe {
             if (String.IsNullOrEmpty (charge_id))
                 throw new ArgumentNullException ("charge_id");
 
-            if (String.IsNullOrEmpty (charge_id))
+            if (String.IsNullOrEmpty (evidence))
                 throw new ArgumentNullException ("evidence");
 
-            string ep = String.Format ("{0}/charges/{1}/disput", api_endpoint, HttpUtility.UrlEncode (charge_id), HttpUtility.UrlEncode (evidence));
+            string ep = String.Format ("{0}/charges/{1}/dispute", api_endpoint, HttpUtility.UrlEncode (charge_id));
             return DoRequest<StripeDispute> (ep, "POST", String.Format ("evidence={0}", HttpUtility.UrlEncode (evidence)));
         }
 
