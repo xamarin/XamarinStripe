@@ -47,6 +47,6 @@ namespace Xamarin.Payments.Stripe {
         public string Name { get; set; }
 
         [JsonProperty (PropertyName = "trial_period_days")]
-        public int TrialPeriod { get; set; }
+        public int? TrialPeriod { get; set; }
     }
 }
