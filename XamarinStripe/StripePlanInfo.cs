@@ -30,9 +30,11 @@ namespace Xamarin.Payments.Stripe {
 
         public StripePlanInterval Interval { get; set; }
 
+        public int? IntervalCount { get; set; }
+
         public string Name { get; set; }
 
-        public int TrialPeriod { get; set; }
+        public int? TrialPeriod { get; set; }
 
         #region IUrlEncoderInfo Members
 
@@ -40,8 +42,12 @@ namespace Xamarin.Payments.Stripe {
         {
             sb.AppendFormat ("id={0}&amount={1}&currency={2}&interval={3}&name={4}&",
                 HttpUtility.UrlEncode (ID), Amount, HttpUtility.UrlEncode (Currency ?? "usd"), HttpUtility.UrlEncode (Interval.ToString().ToLower ()), HttpUtility.UrlEncode (Name));
-            if (TrialPeriod > 0)
-                sb.AppendFormat ("trial_period_days={0}&", TrialPeriod);
+
+            if (IntervalCount.HasValue)
+                sb.AppendFormat ("interval_count={0}&", IntervalCount.Value);
+            
+            if (TrialPeriod.HasValue)
+                sb.AppendFormat ("trial_period_days={0}&", TrialPeriod.Value);
         }
 
         #endregion
