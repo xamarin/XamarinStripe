@@ -37,6 +37,12 @@ namespace Xamarin.Payments.Stripe
             result.StatusCode = code;
             return result;
         }
+        
+        public override string Message {
+            get {
+                return StripeError.Message;
+            }
+        }
 
         [JsonProperty (PropertyName="error")]
         public StripeError StripeError { get; internal set; }
