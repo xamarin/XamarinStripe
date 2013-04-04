@@ -384,6 +384,13 @@ namespace Xamarin.Payments.Stripe {
             string ep = string.Format (subscription_path + "?at_period_end={2}", api_endpoint, HttpUtility.UrlEncode (customerId), atPeriodEnd.ToString (CultureInfo.InvariantCulture).ToLowerInvariant ());
             return DoRequest<StripeSubscription> (ep, "DELETE", null);
         }
+
+        public StripeSubscription DeleteSubscription(string customerId, bool atPeriodEnd)
+        {
+            return Unsubscribe(customerId, atPeriodEnd);
+        }
+
+
         #endregion
         #region Invoice items
         public StripeInvoiceItem CreateInvoiceItem (StripeInvoiceItemInfo item)
