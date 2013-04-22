@@ -32,7 +32,10 @@ namespace Xamarin.Payments.Stripe {
         public StripeCouponDuration Duration { get; set; }
 
         [JsonProperty (PropertyName = "percent_off")]
-        public int PercentOff { get; set; }
+        public int? PercentOff { get; set; }
+
+        [JsonProperty(PropertyName = "amount_off")]
+        public int? AmountOff { get; set; }
 
         [JsonProperty (PropertyName = "deleted")]
         public bool? Deleted { get; set; }
