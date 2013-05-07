@@ -50,6 +50,7 @@
     <Compile Include="StripeDispute.cs" />
     <Compile Include="StripeDisputeStatus.cs" />
     <Compile Include="StripeEvent.cs" />
+    <Compile Include="StripeDateTimeInfo.cs" />
     <Compile Include="StripeFeeDetail.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="StripeCard.cs" />
