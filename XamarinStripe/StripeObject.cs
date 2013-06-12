@@ -35,6 +35,8 @@ namespace Xamarin.Payments.Stripe {
     public enum StripeObjectType {
         Unknown,
         Account,
+        Balance,
+        BalanceTransaction,
         Card,
         Charge,
         Coupon,
