@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Xamarin.Stripe</id>
+    <version>$version$</version>
+    <title>Xamarin Stripe client library</title>
+    <authors>Larry Ewing</authors>
+    <owners>Larry Ewing</owners>
+    <description>Xamarin Stripe client library.</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright (C) Xamarin 2013</copyright>
+    <tags></tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="5.0.6" />
+    </dependencies>
+  </metadata>
+</package>
