@@ -40,7 +40,7 @@ namespace Xamarin.Payments.Stripe {
         public bool Attempted { get; set; }
 
         [JsonProperty ("attempt_count")]
-        int AttemptCount { get; set; }
+        public int AttemptCount { get; set; }
 
         [JsonProperty ("closed")]
         public bool Closed { get; set; }
