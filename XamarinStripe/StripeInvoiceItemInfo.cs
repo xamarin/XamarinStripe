@@ -23,6 +23,8 @@ using System.Web;
 namespace Xamarin.Payments.Stripe {
     public class StripeInvoiceItemInfo : IUrlEncoderInfo {
         public string CustomerID { get; set; }
+        
+        public string InvoiceID { get; set; }
 
         public int Amount { get; set; }
 
@@ -37,6 +39,8 @@ namespace Xamarin.Payments.Stripe {
                 HttpUtility.UrlEncode (CustomerID), Amount, HttpUtility.UrlEncode (Currency ?? "usd"));
             if (!string.IsNullOrEmpty (Description))
                 sb.AppendFormat ("description={0}&", HttpUtility.UrlEncode (Description));
+            if (!string.IsNullOrEmpty (InvoiceID))
+                sb.AppendFormat ("invoice={0}&", HttpUtility.UrlEncode (InvoiceID));
         }
         #endregion
     }
