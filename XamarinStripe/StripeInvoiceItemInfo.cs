@@ -38,9 +38,9 @@ namespace Xamarin.Payments.Stripe {
             sb.AppendFormat ("customer={0}&amount={1}&currency={2}&",
                 HttpUtility.UrlEncode (CustomerID), Amount, HttpUtility.UrlEncode (Currency ?? "usd"));
             if (!string.IsNullOrEmpty (Description))
-                sb.AppendFormat ("description={0}&", HttpUtility.UrlEncode (Description));
+                sb.AppendFormat ("&description={0}", HttpUtility.UrlEncode (Description));
             if (!string.IsNullOrEmpty (InvoiceID))
-                sb.AppendFormat ("invoice={0}&", HttpUtility.UrlEncode (InvoiceID));
+                sb.AppendFormat ("&invoice={0}", HttpUtility.UrlEncode (InvoiceID));
         }
         #endregion
     }
