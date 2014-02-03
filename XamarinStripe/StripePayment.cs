@@ -169,7 +169,7 @@ namespace Xamarin.Payments.Stripe {
             return DoRequest<StripeCharge> (ep);
         }
 
-        public StripeCollection<StripeCharge> GetCharges (int offset = 0, int count = 10, string customer_id = null)
+        public StripeCollection<StripeCharge> GetCharges (int offset = 0, int count = 10, string customer_id = null, StripeDateTimeInfo created = null)
         {
             if (offset < 0)
                 throw new ArgumentOutOfRangeException ("offset");
@@ -181,7 +181,12 @@ namespace Xamarin.Payments.Stripe {
             str.AppendFormat ("count={0}&", count);
             if (!String.IsNullOrEmpty (customer_id))
                 str.AppendFormat ("customer={0}&", HttpUtility.UrlEncode (customer_id));
-             
+
+            if (created != null) {
+                created.Prefix = "created";
+                created.UrlEncode (str);
+            }
+
             str.Length--;
             string ep = String.Format ("{0}/charges?{1}", api_endpoint, str);
             return DoRequest<StripeCollection<StripeCharge>> (ep);
@@ -288,20 +293,27 @@ namespace Xamarin.Payments.Stripe {
             return DoRequest<StripeEvent> (ep);
         }
 
-        public StripeCollection<StripeEvent> GetEvents (int offset = 0, int count = 10, string type = null)
+        public StripeCollection<StripeEvent> GetEvents (int offset = 0, int count = 10, string type = null, StripeDateTimeInfo created = null)
         {
-            // NOTE: we aren't currnently mapping created
             if (offset < 0)
                 throw new ArgumentOutOfRangeException ("offset");
             if (count < 1 || count > 100)
                 throw new ArgumentOutOfRangeException ("count");
 
-            string args = String.Format ("offset={0}&count={1}", offset, count);
+           StringBuilder str = new StringBuilder ();
+           str.AppendFormat ("offset={0}&count={1}&", offset, count);
 
             if (!string.IsNullOrEmpty (type))
-                args += String.Format ("&type={0}", HttpUtility.UrlEncode (type));
+                str.AppendFormat ("type={0}&", HttpUtility.UrlEncode (type));
 
-            string ep = String.Format ("{0}/events?{1}", api_endpoint, args);
+            if (created != null) {
+                created.Prefix = "created";
+                created.UrlEncode (str);
+            }
+
+            str.Length--;
+
+            string ep = String.Format ("{0}/events?{1}", api_endpoint, str);
             return DoRequest<StripeCollection<StripeEvent>> (ep);
         }
 
@@ -416,7 +428,7 @@ namespace Xamarin.Payments.Stripe {
             return DoRequest<StripeInvoiceItem> (ep, "DELETE", null);
         }
 
-        public StripeCollection<StripeInvoiceItem> GetInvoiceItems (int offset = 0, int count = 10, string customerId = null)
+        public StripeCollection<StripeInvoiceItem> GetInvoiceItems (int offset = 0, int count = 10, string customerId = null, StripeDateTimeInfo created = null)
         {
             if (offset < 0)
                 throw new ArgumentOutOfRangeException ("offset");
@@ -429,6 +441,11 @@ namespace Xamarin.Payments.Stripe {
             if (!string.IsNullOrEmpty (customerId))
                 str.AppendFormat ("customer={0}&", HttpUtility.UrlEncode (customerId));
 
+            if (created != null) {
+                created.Prefix = "created";
+                created.UrlEncode (str);
+            }
+            
             str.Length--;
             string ep = String.Format ("{0}/invoiceitems?{1}", api_endpoint, str);
             return DoRequest<StripeCollection<StripeInvoiceItem>> (ep);

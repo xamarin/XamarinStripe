@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -38,18 +42,18 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Deps\Newtonsoft.Json.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StripeBalanceTransaction.cs" />
     <Compile Include="StripeAccount.cs" />
+    <Compile Include="StripeBalance.cs" />
     <Compile Include="StripeDisputeReason.cs" />
     <Compile Include="StripeCollection.cs" />
     <Compile Include="StripeDiscount.cs" />
     <Compile Include="StripeDispute.cs" />
     <Compile Include="StripeDisputeStatus.cs" />
     <Compile Include="StripeEvent.cs" />
+    <Compile Include="StripeDateTimeInfo.cs" />
     <Compile Include="StripeFeeDetail.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="StripeCard.cs" />
@@ -84,6 +88,9 @@
     <Compile Include="StripeCouponDuration.cs" />
     <Compile Include="StripePlanInterval.cs" />
     <Compile Include="StripeEnumConverter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

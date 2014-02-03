@@ -35,6 +35,10 @@ namespace Xamarin.Payments.Stripe {
             switch (type) {
             case "account":
                 return new StripeAccount ();
+            case "balance":
+                return new StripeBalance ();
+            case "balance_transaction":
+                return new StripeBalanceTransaction ();
             case "charge":
                 return new StripeCharge ();
             case "event":
