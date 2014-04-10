@@ -28,7 +28,7 @@ namespace Xamarin.Payments.Stripe {
         [JsonProperty ("currency")]
         public string Currency { get; set; }
 
-        [JsonProperty ("available_on")]
+        [JsonProperty ("net")]
         public int Net { get; set; }
 
         [JsonProperty ("fee")]
