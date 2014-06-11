@@ -53,5 +53,11 @@ namespace Xamarin.Payments.Stripe {
 
         [JsonProperty (PropertyName = "subscription")]
         public StripeSubscription Subscription { get; set; }
+
+        [JsonProperty (PropertyName = "cards")]
+        public StripeCollection<StripeCard> Cards { get; set; }
+
+        [JsonProperty (PropertyName = "default_card")]
+        public string DefaultCard { get; set; }
     }
 }
