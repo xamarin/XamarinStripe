@@ -31,6 +31,7 @@ namespace Xamarin.Payments.Stripe {
         public string Plan { get; set; }
         public DateTime? TrialEnd { get; set; }
         public bool? Validate { get; set; }
+        public string DefaultCardId { get; set; }
 
         public virtual void UrlEncode (StringBuilder sb)
         {
@@ -48,6 +49,8 @@ namespace Xamarin.Payments.Stripe {
                 sb.AppendFormat ("trial_end={0}&", TrialEnd.Value.ToUnixEpoch ());
             if (Validate.HasValue)
                 sb.AppendFormat ("validate={0}&", Validate.Value.ToString (CultureInfo.InvariantCulture).ToLowerInvariant ());
+            if (DefaultCardId != null)
+                sb.AppendFormat ("default_card={0}&", HttpUtility.UrlEncode (DefaultCardId));
         }
     }
 }
