@@ -535,6 +535,21 @@ namespace Xamarin.Payments.Stripe {
             return DoRequest<StripeCollection<StripeCoupon>> (ep);
         }
         #endregion
+        #region Cards
+        public StripeCard DeleteCard (string customer_id, string card_id)
+        {
+            if (string.IsNullOrWhiteSpace (customer_id)) {
+                throw new ArgumentNullException ("customer_id");
+            }
+            if (string.IsNullOrWhiteSpace (card_id)) {
+                throw new ArgumentNullException ("card_id");
+            }
+
+            string ep = string.Format ("{0}/customers/{1}/cards/{2}", api_endpoint, HttpUtility.UrlEncode (customer_id),
+                                       HttpUtility.UrlEncode (card_id));
+            return DoRequest<StripeCard> (ep, "DELETE", null);
+        }
+        #endregion
         public int TimeoutSeconds { get; set; }
     }
 }

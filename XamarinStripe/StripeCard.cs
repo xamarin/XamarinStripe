@@ -50,5 +50,7 @@ namespace Xamarin.Payments.Stripe {
         public string Name { get; set; }
         [JsonProperty (PropertyName = "fingerprint")]
         public string Fingerprint { get; set; }
+        [JsonProperty (PropertyName = "deleted")]
+        public bool Deleted { get; set; }
     }
 }
