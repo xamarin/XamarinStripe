@@ -536,6 +536,17 @@ namespace Xamarin.Payments.Stripe {
         }
         #endregion
         #region Cards
+        public StripeCard CreateCard (string customer_id, StripeCreditCardInfo card)
+        {
+            if (string.IsNullOrWhiteSpace (customer_id)) {
+                throw new ArgumentNullException ("customer_id");
+            }
+
+            StringBuilder str = UrlEncode (card);
+            string ep = String.Format ("{0}/customers/{1}/cards", api_endpoint, HttpUtility.UrlEncode (customer_id));
+            return DoRequest<StripeCard> (ep, "POST", str.ToString ());
+        }
+
         public StripeCard DeleteCard (string customer_id, string card_id)
         {
             if (string.IsNullOrWhiteSpace (customer_id)) {
