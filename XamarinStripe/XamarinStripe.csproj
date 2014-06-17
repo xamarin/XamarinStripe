@@ -47,6 +47,7 @@
     <Compile Include="StripeBalanceTransaction.cs" />
     <Compile Include="StripeAccount.cs" />
     <Compile Include="StripeBalance.cs" />
+    <Compile Include="StripeUpdateCreditCardInfo.cs" />
     <Compile Include="StripeDisputeReason.cs" />
     <Compile Include="StripeCollection.cs" />
     <Compile Include="StripeDiscount.cs" />

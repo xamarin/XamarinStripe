@@ -560,6 +560,22 @@ namespace Xamarin.Payments.Stripe {
                                        HttpUtility.UrlEncode (card_id));
             return DoRequest<StripeCard> (ep, "DELETE", null);
         }
+
+        public StripeCard UpdateCard (string customer_id, StripeUpdateCreditCardInfo card)
+        {
+            if (string.IsNullOrWhiteSpace (customer_id))
+                throw new ArgumentNullException ("customer_id");
+            if (null == card)
+                throw new ArgumentNullException ("card");
+            if (string.IsNullOrWhiteSpace (card.ID))
+                throw new ArgumentNullException ("card.ID");
+
+            StringBuilder str = UrlEncode (card);
+            string format = "{0}/customers/{1}/cards/{2}";
+            string ep = string.Format (format, api_endpoint, HttpUtility.UrlEncode (customer_id),
+                                       HttpUtility.UrlEncode (card.ID));
+            return DoRequest<StripeCard> (ep, "POST", str.ToString ());
+        }
         #endregion
         public int TimeoutSeconds { get; set; }
     }
