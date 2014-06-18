@@ -1,3 +1,6 @@
 *.suo
 bin
 obj
+
+packages
+
