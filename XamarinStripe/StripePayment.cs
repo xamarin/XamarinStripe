@@ -500,8 +500,8 @@ namespace Xamarin.Payments.Stripe {
         {
             if (coupon == null)
                 throw new ArgumentNullException ("coupon");
-            if (coupon.PercentOff < 1 || coupon.PercentOff > 100)
-                throw new ArgumentOutOfRangeException ("coupon.PercentOff");
+            if ((coupon.PercentOff < 1 || coupon.PercentOff > 100) && (coupon.AmmountOff < 1 || coupon.AmmountOff > 100))
+                throw new ArgumentOutOfRangeException("coupon.PercentOff or coupon.AmmountOff");
             if (coupon.Duration == StripeCouponDuration.Repeating && coupon.MonthsForDuration < 1)
                 throw new ArgumentException ("MonthsForDuration must be greater than 1 when Duration = Repeating");
             StringBuilder str = UrlEncode (coupon);
