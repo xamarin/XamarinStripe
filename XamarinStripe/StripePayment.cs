@@ -495,6 +495,15 @@ namespace Xamarin.Payments.Stripe {
             return DoRequest<StripeCollection<StripeLineItem>> (ep);
         }
         #endregion
+        #region Balance transactions
+        public StripeBalanceTransaction GetBalanceTransaction (string transactionId)
+        {
+            if (string.IsNullOrEmpty (transactionId))
+                throw new ArgumentNullException ("transactionId");
+            string ep = string.Format ("{0}/balance/history/{1}", api_endpoint, HttpUtility.UrlEncode (transactionId));
+            return DoRequest<StripeBalanceTransaction> (ep);
+        }
+        #endregion
         #region Coupons
         public StripeCoupon CreateCoupon (StripeCouponInfo coupon)
         {

@@ -33,8 +33,13 @@ namespace Xamarin.Payments.Stripe {
         public bool Paid { get; set; }
         [JsonProperty (PropertyName = "amount")]
         public int Amount { get; set; }
+        /* api changed */
+        /*
         [JsonProperty (PropertyName = "fee")]
         public int Fee { get; set; }
+         */
+        [JsonProperty (PropertyName = "balance_transaction")]
+        public string BalanceTransaction { get; set; }
         [JsonProperty (PropertyName = "livemode")]
         public bool LiveMode { get; set; }
         /* api changed */
