@@ -23,7 +23,9 @@ using System.Web;
 
 namespace Xamarin.Payments.Stripe {
     public class StripeCustomerInfo : IUrlEncoderInfo {
+        // Card can either be a card object or a token from stripe.js
         public StripeCreditCardInfo Card { get; set; }
+        public string Token { get; set; }
         // The strings allow ""
         public string Coupon { get; set; }
         public string Email { get; set; } //TODO: Validate this using System.Net.Mail.MailAddress?
@@ -37,6 +39,8 @@ namespace Xamarin.Payments.Stripe {
         {
             if (Card != null)
                 Card.UrlEncode (sb);
+            else if (Token != null)
+                sb.AppendFormat("card={0}&", HttpUtility.UrlEncode(Token));
             if (Coupon != null)
                 sb.AppendFormat ("coupon={0}&", HttpUtility.UrlEncode (Coupon));
             if (Email != null)
