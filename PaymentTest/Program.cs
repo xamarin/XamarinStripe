@@ -47,7 +47,7 @@ namespace PaymentTest {
             StripeCreditCardInfo cc = new StripeCreditCardInfo ();
             cc.CVC = "1234";
             cc.ExpirationMonth = 6;
-            cc.ExpirationYear = 2015;
+            cc.ExpirationYear = 2017;
             cc.Number = "4242424242424242";
             return cc;
         }

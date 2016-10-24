@@ -43,6 +43,7 @@ namespace Xamarin.Payments.Stripe {
         #region Shared
         protected virtual WebRequest SetupRequest (string method, string url)
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             WebRequest req = (WebRequest) WebRequest.Create (url);
             req.Method = method;
             if (req is HttpWebRequest) {
